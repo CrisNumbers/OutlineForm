@@ -1,0 +1,10 @@
+C:\Users\MAVA\source\repos\BarraDeTitulo\bin\Debug\BarraDeTitulo.exe.config
+C:\Users\MAVA\source\repos\BarraDeTitulo\bin\Debug\BarraDeTitulo.exe
+C:\Users\MAVA\source\repos\BarraDeTitulo\bin\Debug\BarraDeTitulo.pdb
+C:\Users\MAVA\source\repos\BarraDeTitulo\obj\Debug\OutlineForm_Example.csprojAssemblyReference.cache
+C:\Users\MAVA\source\repos\BarraDeTitulo\obj\Debug\OutlineForm_Example.Form1.resources
+C:\Users\MAVA\source\repos\BarraDeTitulo\obj\Debug\BarraDeTitulo.Properties.Resources.resources
+C:\Users\MAVA\source\repos\BarraDeTitulo\obj\Debug\OutlineForm_Example.csproj.GenerateResource.cache
+C:\Users\MAVA\source\repos\BarraDeTitulo\obj\Debug\OutlineForm_Example.csproj.CoreCompileInputs.cache
+C:\Users\MAVA\source\repos\BarraDeTitulo\obj\Debug\BarraDeTitulo.exe
+C:\Users\MAVA\source\repos\BarraDeTitulo\obj\Debug\BarraDeTitulo.pdb
