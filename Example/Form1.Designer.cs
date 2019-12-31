@@ -30,6 +30,8 @@
         {
             this.bottomEnable = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.medidasBoton = new System.Windows.Forms.Button();
             this.margin = new System.Windows.Forms.GroupBox();
@@ -54,8 +56,6 @@
             this.topEnable = new System.Windows.Forms.Button();
             this.RightEnable = new System.Windows.Forms.Button();
             this.leftEnable = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.margin.SuspendLayout();
@@ -67,10 +67,10 @@
             // 
             // bottomEnable
             // 
-            this.bottomEnable.Location = new System.Drawing.Point(68, 77);
+            this.bottomEnable.Location = new System.Drawing.Point(78, 87);
             this.bottomEnable.Name = "bottomEnable";
-            this.bottomEnable.Size = new System.Drawing.Size(75, 23);
-            this.bottomEnable.TabIndex = 0;
+            this.bottomEnable.Size = new System.Drawing.Size(81, 28);
+            this.bottomEnable.TabIndex = 3;
             this.bottomEnable.Text = "Bottom";
             this.bottomEnable.UseVisualStyleBackColor = true;
             this.bottomEnable.Click += new System.EventHandler(this.Button1_Click);
@@ -84,11 +84,31 @@
             this.panel1.Controls.Add(this.groupBox3);
             this.panel1.Controls.Add(this.superior);
             this.panel1.Controls.Add(this.contorno);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panel1.Location = new System.Drawing.Point(0, 12);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(401, 389);
-            this.panel1.TabIndex = 4;
+            this.panel1.Size = new System.Drawing.Size(555, 517);
+            this.panel1.TabIndex = 0;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(440, 52);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(101, 22);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "Version 0.1";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(237, 14);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(304, 31);
+            this.label2.TabIndex = 12;
+            this.label2.Text = "Ejemplo de OutlineForm";
             // 
             // groupBox3
             // 
@@ -98,19 +118,19 @@
             this.groupBox3.Controls.Add(this.margin);
             this.groupBox3.Controls.Add(this.padding);
             this.groupBox3.Controls.Add(this.border);
-            this.groupBox3.Location = new System.Drawing.Point(3, 14);
+            this.groupBox3.Location = new System.Drawing.Point(11, 14);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(154, 370);
+            this.groupBox3.Size = new System.Drawing.Size(207, 498);
             this.groupBox3.TabIndex = 11;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Medidas de la ventana";
             // 
             // medidasBoton
             // 
-            this.medidasBoton.Location = new System.Drawing.Point(40, 323);
+            this.medidasBoton.Location = new System.Drawing.Point(49, 464);
             this.medidasBoton.Name = "medidasBoton";
-            this.medidasBoton.Size = new System.Drawing.Size(75, 23);
-            this.medidasBoton.TabIndex = 3;
+            this.medidasBoton.Size = new System.Drawing.Size(95, 30);
+            this.medidasBoton.TabIndex = 0;
             this.medidasBoton.Text = "Actualizar";
             this.medidasBoton.UseVisualStyleBackColor = true;
             this.medidasBoton.Click += new System.EventHandler(this.MedidasBoton_Click);
@@ -121,39 +141,39 @@
             this.margin.Controls.Add(this.marginLeft);
             this.margin.Controls.Add(this.marginRight);
             this.margin.Controls.Add(this.marginTop);
-            this.margin.Location = new System.Drawing.Point(16, 225);
+            this.margin.Location = new System.Drawing.Point(6, 337);
             this.margin.Name = "margin";
-            this.margin.Size = new System.Drawing.Size(126, 97);
+            this.margin.Size = new System.Drawing.Size(195, 119);
             this.margin.TabIndex = 2;
             this.margin.TabStop = false;
             this.margin.Text = "Margin";
             // 
             // marginBottom
             // 
-            this.marginBottom.Location = new System.Drawing.Point(33, 71);
+            this.marginBottom.Location = new System.Drawing.Point(65, 87);
             this.marginBottom.Name = "marginBottom";
-            this.marginBottom.Size = new System.Drawing.Size(53, 20);
-            this.marginBottom.TabIndex = 0;
+            this.marginBottom.Size = new System.Drawing.Size(53, 26);
+            this.marginBottom.TabIndex = 3;
             // 
             // marginLeft
             // 
-            this.marginLeft.Location = new System.Drawing.Point(6, 45);
+            this.marginLeft.Location = new System.Drawing.Point(15, 57);
             this.marginLeft.Name = "marginLeft";
-            this.marginLeft.Size = new System.Drawing.Size(53, 20);
-            this.marginLeft.TabIndex = 0;
+            this.marginLeft.Size = new System.Drawing.Size(53, 26);
+            this.marginLeft.TabIndex = 1;
             // 
             // marginRight
             // 
-            this.marginRight.Location = new System.Drawing.Point(65, 45);
+            this.marginRight.Location = new System.Drawing.Point(117, 57);
             this.marginRight.Name = "marginRight";
-            this.marginRight.Size = new System.Drawing.Size(53, 20);
-            this.marginRight.TabIndex = 0;
+            this.marginRight.Size = new System.Drawing.Size(53, 26);
+            this.marginRight.TabIndex = 2;
             // 
             // marginTop
             // 
-            this.marginTop.Location = new System.Drawing.Point(33, 19);
+            this.marginTop.Location = new System.Drawing.Point(65, 25);
             this.marginTop.Name = "marginTop";
-            this.marginTop.Size = new System.Drawing.Size(53, 20);
+            this.marginTop.Size = new System.Drawing.Size(53, 26);
             this.marginTop.TabIndex = 0;
             // 
             // padding
@@ -162,39 +182,39 @@
             this.padding.Controls.Add(this.paddingLeft);
             this.padding.Controls.Add(this.paddingRight);
             this.padding.Controls.Add(this.paddingTop);
-            this.padding.Location = new System.Drawing.Point(16, 122);
+            this.padding.Location = new System.Drawing.Point(6, 176);
             this.padding.Name = "padding";
-            this.padding.Size = new System.Drawing.Size(126, 97);
-            this.padding.TabIndex = 2;
+            this.padding.Size = new System.Drawing.Size(195, 119);
+            this.padding.TabIndex = 1;
             this.padding.TabStop = false;
             this.padding.Text = "Padding";
             // 
             // paddingBottom
             // 
-            this.paddingBottom.Location = new System.Drawing.Point(33, 71);
+            this.paddingBottom.Location = new System.Drawing.Point(65, 87);
             this.paddingBottom.Name = "paddingBottom";
-            this.paddingBottom.Size = new System.Drawing.Size(53, 20);
-            this.paddingBottom.TabIndex = 0;
+            this.paddingBottom.Size = new System.Drawing.Size(53, 26);
+            this.paddingBottom.TabIndex = 3;
             // 
             // paddingLeft
             // 
-            this.paddingLeft.Location = new System.Drawing.Point(6, 45);
+            this.paddingLeft.Location = new System.Drawing.Point(15, 57);
             this.paddingLeft.Name = "paddingLeft";
-            this.paddingLeft.Size = new System.Drawing.Size(53, 20);
-            this.paddingLeft.TabIndex = 0;
+            this.paddingLeft.Size = new System.Drawing.Size(53, 26);
+            this.paddingLeft.TabIndex = 1;
             // 
             // paddingRight
             // 
-            this.paddingRight.Location = new System.Drawing.Point(65, 45);
+            this.paddingRight.Location = new System.Drawing.Point(117, 57);
             this.paddingRight.Name = "paddingRight";
-            this.paddingRight.Size = new System.Drawing.Size(53, 20);
-            this.paddingRight.TabIndex = 0;
+            this.paddingRight.Size = new System.Drawing.Size(53, 26);
+            this.paddingRight.TabIndex = 2;
             // 
             // paddingTop
             // 
-            this.paddingTop.Location = new System.Drawing.Point(33, 19);
+            this.paddingTop.Location = new System.Drawing.Point(65, 25);
             this.paddingTop.Name = "paddingTop";
-            this.paddingTop.Size = new System.Drawing.Size(53, 20);
+            this.paddingTop.Size = new System.Drawing.Size(53, 26);
             this.paddingTop.TabIndex = 0;
             // 
             // border
@@ -203,39 +223,39 @@
             this.border.Controls.Add(this.borderLeft);
             this.border.Controls.Add(this.borderBottom);
             this.border.Controls.Add(this.borderTop);
-            this.border.Location = new System.Drawing.Point(16, 19);
+            this.border.Location = new System.Drawing.Point(6, 38);
             this.border.Name = "border";
-            this.border.Size = new System.Drawing.Size(126, 97);
-            this.border.TabIndex = 1;
+            this.border.Size = new System.Drawing.Size(195, 119);
+            this.border.TabIndex = 0;
             this.border.TabStop = false;
             this.border.Text = "Border";
             // 
             // borderRight
             // 
-            this.borderRight.Location = new System.Drawing.Point(67, 45);
+            this.borderRight.Location = new System.Drawing.Point(117, 57);
             this.borderRight.Name = "borderRight";
-            this.borderRight.Size = new System.Drawing.Size(53, 20);
-            this.borderRight.TabIndex = 0;
+            this.borderRight.Size = new System.Drawing.Size(53, 26);
+            this.borderRight.TabIndex = 2;
             // 
             // borderLeft
             // 
-            this.borderLeft.Location = new System.Drawing.Point(6, 45);
+            this.borderLeft.Location = new System.Drawing.Point(15, 57);
             this.borderLeft.Name = "borderLeft";
-            this.borderLeft.Size = new System.Drawing.Size(53, 20);
-            this.borderLeft.TabIndex = 0;
+            this.borderLeft.Size = new System.Drawing.Size(53, 26);
+            this.borderLeft.TabIndex = 1;
             // 
             // borderBottom
             // 
-            this.borderBottom.Location = new System.Drawing.Point(33, 71);
+            this.borderBottom.Location = new System.Drawing.Point(65, 87);
             this.borderBottom.Name = "borderBottom";
-            this.borderBottom.Size = new System.Drawing.Size(53, 20);
-            this.borderBottom.TabIndex = 0;
+            this.borderBottom.Size = new System.Drawing.Size(53, 26);
+            this.borderBottom.TabIndex = 3;
             // 
             // borderTop
             // 
-            this.borderTop.Location = new System.Drawing.Point(33, 19);
+            this.borderTop.Location = new System.Drawing.Point(65, 25);
             this.borderTop.Name = "borderTop";
-            this.borderTop.Size = new System.Drawing.Size(53, 20);
+            this.borderTop.Size = new System.Drawing.Size(53, 26);
             this.borderTop.TabIndex = 0;
             // 
             // superior
@@ -243,9 +263,9 @@
             this.superior.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.superior.Controls.Add(this.label1);
             this.superior.Controls.Add(this.nameTextBox);
-            this.superior.Location = new System.Drawing.Point(186, 201);
+            this.superior.Location = new System.Drawing.Point(319, 286);
             this.superior.Name = "superior";
-            this.superior.Size = new System.Drawing.Size(210, 69);
+            this.superior.Size = new System.Drawing.Size(231, 89);
             this.superior.TabIndex = 10;
             this.superior.TabStop = false;
             this.superior.Text = "PanelSuperior";
@@ -253,17 +273,17 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(15, 19);
+            this.label1.Location = new System.Drawing.Point(30, 34);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(112, 13);
+            this.label1.Size = new System.Drawing.Size(164, 20);
             this.label1.TabIndex = 1;
             this.label1.Text = "Nombre de la ventana";
             // 
             // nameTextBox
             // 
-            this.nameTextBox.Location = new System.Drawing.Point(18, 35);
+            this.nameTextBox.Location = new System.Drawing.Point(25, 57);
             this.nameTextBox.Name = "nameTextBox";
-            this.nameTextBox.Size = new System.Drawing.Size(172, 20);
+            this.nameTextBox.Size = new System.Drawing.Size(172, 26);
             this.nameTextBox.TabIndex = 0;
             this.nameTextBox.TextChanged += new System.EventHandler(this.TextBox1_TextChanged);
             // 
@@ -274,68 +294,48 @@
             this.contorno.Controls.Add(this.bottomEnable);
             this.contorno.Controls.Add(this.RightEnable);
             this.contorno.Controls.Add(this.leftEnable);
-            this.contorno.Location = new System.Drawing.Point(186, 276);
+            this.contorno.Location = new System.Drawing.Point(319, 392);
             this.contorno.Name = "contorno";
-            this.contorno.Size = new System.Drawing.Size(210, 108);
+            this.contorno.Size = new System.Drawing.Size(231, 120);
             this.contorno.TabIndex = 8;
             this.contorno.TabStop = false;
             this.contorno.Text = "Mostrar contorno";
             // 
             // topEnable
             // 
-            this.topEnable.Location = new System.Drawing.Point(68, 19);
+            this.topEnable.Location = new System.Drawing.Point(78, 29);
             this.topEnable.Name = "topEnable";
-            this.topEnable.Size = new System.Drawing.Size(75, 23);
-            this.topEnable.TabIndex = 4;
+            this.topEnable.Size = new System.Drawing.Size(81, 28);
+            this.topEnable.TabIndex = 0;
             this.topEnable.Text = "Top";
             this.topEnable.UseVisualStyleBackColor = true;
             this.topEnable.Click += new System.EventHandler(this.Button2_Click);
             // 
             // RightEnable
             // 
-            this.RightEnable.Location = new System.Drawing.Point(131, 48);
+            this.RightEnable.Location = new System.Drawing.Point(141, 58);
             this.RightEnable.Name = "RightEnable";
-            this.RightEnable.Size = new System.Drawing.Size(75, 23);
-            this.RightEnable.TabIndex = 6;
+            this.RightEnable.Size = new System.Drawing.Size(81, 28);
+            this.RightEnable.TabIndex = 2;
             this.RightEnable.Text = "Right";
             this.RightEnable.UseVisualStyleBackColor = true;
             this.RightEnable.Click += new System.EventHandler(this.Button4_Click);
             // 
             // leftEnable
             // 
-            this.leftEnable.Location = new System.Drawing.Point(8, 48);
+            this.leftEnable.Location = new System.Drawing.Point(18, 58);
             this.leftEnable.Name = "leftEnable";
-            this.leftEnable.Size = new System.Drawing.Size(75, 23);
-            this.leftEnable.TabIndex = 5;
+            this.leftEnable.Size = new System.Drawing.Size(81, 28);
+            this.leftEnable.TabIndex = 1;
             this.leftEnable.Text = "Left";
             this.leftEnable.UseVisualStyleBackColor = true;
             this.leftEnable.Click += new System.EventHandler(this.Button3_Click);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(190, 102);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(202, 22);
-            this.label2.TabIndex = 12;
-            this.label2.Text = "Ejemplo de OutlineForm";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(240, 136);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(101, 22);
-            this.label3.TabIndex = 12;
-            this.label3.Text = "Version 0.1";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(401, 389);
+            this.ClientSize = new System.Drawing.Size(567, 541);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Form1";

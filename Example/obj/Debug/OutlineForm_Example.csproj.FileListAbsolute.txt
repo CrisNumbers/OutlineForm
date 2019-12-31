@@ -8,3 +8,13 @@ C:\Users\MAVA\source\repos\BarraDeTitulo\obj\Debug\OutlineForm_Example.csproj.Ge
 C:\Users\MAVA\source\repos\BarraDeTitulo\obj\Debug\OutlineForm_Example.csproj.CoreCompileInputs.cache
 C:\Users\MAVA\source\repos\BarraDeTitulo\obj\Debug\BarraDeTitulo.exe
 C:\Users\MAVA\source\repos\BarraDeTitulo\obj\Debug\BarraDeTitulo.pdb
+C:\Users\MAVA\source\repos\OutlineForm\Example\bin\Debug\BarraDeTitulo.exe.config
+C:\Users\MAVA\source\repos\OutlineForm\Example\bin\Debug\BarraDeTitulo.exe
+C:\Users\MAVA\source\repos\OutlineForm\Example\bin\Debug\BarraDeTitulo.pdb
+C:\Users\MAVA\source\repos\OutlineForm\Example\obj\Debug\OutlineForm_Example.csprojAssemblyReference.cache
+C:\Users\MAVA\source\repos\OutlineForm\Example\obj\Debug\OutlineForm_Example.Form1.resources
+C:\Users\MAVA\source\repos\OutlineForm\Example\obj\Debug\BarraDeTitulo.Properties.Resources.resources
+C:\Users\MAVA\source\repos\OutlineForm\Example\obj\Debug\OutlineForm_Example.csproj.GenerateResource.cache
+C:\Users\MAVA\source\repos\OutlineForm\Example\obj\Debug\OutlineForm_Example.csproj.CoreCompileInputs.cache
+C:\Users\MAVA\source\repos\OutlineForm\Example\obj\Debug\BarraDeTitulo.exe
+C:\Users\MAVA\source\repos\OutlineForm\Example\obj\Debug\BarraDeTitulo.pdb
