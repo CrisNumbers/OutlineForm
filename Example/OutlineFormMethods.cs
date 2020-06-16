@@ -20,6 +20,16 @@ namespace OutlineForm_Example
                 panelUniversal.Dispose();
                 panelUniversal = null;
             }
+
+            _colorSuperior = Color.Black;
+            _colorInferior = Color.Black;
+            _colorDerecho = Color.Black;
+            _colorIzquierdo = Color.Black;
+            _colorSupDer = Color.Black;
+            _colorSupIzq = Color.Black;
+            _colorInfDer = Color.Black;
+            _colorInfIzq = Color.Black;
+
             if (!Object.ReferenceEquals(null, panelCentro)) { panelCentro.Dispose(); panelCentro = null; }
             if (!Object.ReferenceEquals(null, panelSuperior)) { panelSuperior.Dispose(); panelSuperior = null; }
             if (!Object.ReferenceEquals(null, panelIzquierdo)) { panelIzquierdo.Dispose(); panelIzquierdo = null; }
@@ -47,7 +57,7 @@ namespace OutlineForm_Example
                 listaForms.Add(formP);
                 myForm = formP;
                 OriginalFormBorderStyle = myForm.FormBorderStyle;
-                Set("", Color.Black, myForm.BackColor, new Rect(40, 10, 10, 10), new Rect(10), new Rect(10), true, true, true);
+                Set("", Color.Black, myForm.BackColor, Rect.Window, Rect.Zero, Rect.Zero, true, true, true);
             }
             else
                 throw new ExceptionOutlineForm("No se puede instanciar el objeto con un Form anteriormente agregado");
@@ -216,19 +226,35 @@ namespace OutlineForm_Example
         public void SetColorPanel(SelectedPanel panelP, Color colorP)
         {
             List<Panel> lista = SearchPanel(panelP);
-            string[] nombresPaneles = { "Top", "Bottom", "Left", "Rigth", "TopLeft", "TopRight", "BottomLeft", "BottomRight" };
-            Color[] coloresPaneles = { colorSuperior, colorInferior, colorIzquierdo, colorDerecho, colorSupIzq, colorSupDer, colorInfIzq, colorInfDer };
             foreach (Panel miPanel in lista)
             {
-                for(int i=0; i<nombresPaneles.Length; i++)
+                switch ((SelectedPanel)miPanel.Tag)
                 {
-                    if (miPanel.Name.Contains(nombresPaneles[i]))
-                    {
-                        coloresPaneles[i] = colorP;
+                    case SelectedPanel.Superior:
+                        TopColor = colorP;
                         break;
-                    }
+                    case SelectedPanel.Inferior:
+                        BottomColor = colorP;
+                        break;
+                    case SelectedPanel.Izquierdo:
+                        LeftColor = colorP;
+                        break;
+                    case SelectedPanel.Derecho:
+                        RightColor = colorP;
+                        break;
+                    case SelectedPanel.EsquinaSuperiorIzquierdo:
+                        TopLeftColor = colorP;
+                        break;
+                    case SelectedPanel.EsquinaSuperiorDerecho:
+                        TopRightColor = colorP;
+                        break;
+                    case SelectedPanel.EsquinaInferiorIzquierdo:
+                        BottomLeftColor = colorP;
+                        break;                
+                    case SelectedPanel.EsquinaInferiorDerecho:
+                        BottomRightColor = colorP;
+                        break;
                 }
-                miPanel.BackColor = colorP;
             }
         }
         public bool IsWindowOutsideScreen() => myForm.Location.X < 0 ||
@@ -333,11 +359,12 @@ namespace OutlineForm_Example
             //-------------------------------------------------------------
             panelDSupIzq = new Panel();
             panelUniversal.Controls.Add(panelDSupIzq);
+            panelDSupIzq.Tag = SelectedPanel.EsquinaSuperiorIzquierdo;
             panelDSupIzq.Name = "Outline - TopLeft";
             panelDSupIzq.Left = panelIzquierdo == null ? -border.Left : margin.Left;
             panelDSupIzq.Top = panelSuperior == null ? -border.Top : margin.Top;
             panelDSupIzq.Size = new Size(border.Left, border.Top);
-            panelDSupIzq.BackColor = colorSupIzq;
+            panelDSupIzq.BackColor = _colorSupIzq;
             panelDSupIzq.TabStop = false;
             panelDSupIzq.SendToBack();
 
@@ -346,11 +373,12 @@ namespace OutlineForm_Example
             //-------------------------------------------------------------
             panelDSupDer = new Panel();
             panelUniversal.Controls.Add(panelDSupDer);
+            panelDSupDer.Tag = SelectedPanel.EsquinaSuperiorDerecho;
             panelDSupDer.Name = "Outline - TopRight";
             panelDSupDer.Left = panelIzquierdo == null ? OriginalSizeWindow.Width + padding.Right : OriginalSizeWindow.Width + border.Left + margin.Left + padding.Width();
             panelDSupDer.Top = panelSuperior == null ? -border.Top : margin.Top;
             panelDSupDer.Size = new Size(border.Right, border.Top);
-            panelDSupDer.BackColor = colorSupDer;
+            panelDSupDer.BackColor = _colorSupDer;
             panelDSupDer.TabStop = false;
             panelDSupDer.SendToBack();
 
@@ -359,11 +387,12 @@ namespace OutlineForm_Example
             //-------------------------------------------------------------
             panelDInfIzq = new Panel();
             panelUniversal.Controls.Add(panelDInfIzq);
+            panelDInfIzq.Tag = SelectedPanel.EsquinaInferiorIzquierdo;
             panelDInfIzq.Name = "Outline - BottomLeft";
             panelDInfIzq.Left = panelIzquierdo == null ? -border.Left : margin.Left;
             panelDInfIzq.Top = panelSuperior == null ? OriginalSizeWindow.Height + padding.Bottom : OriginalSizeWindow.Height + border.Top + margin.Top + padding.Height();
             panelDInfIzq.Size = new Size(border.Left, border.Bottom);
-            panelDInfIzq.BackColor = colorInfIzq;
+            panelDInfIzq.BackColor = _colorInfIzq;
             panelDInfIzq.TabStop = false;
             panelDInfIzq.SendToBack();
 
@@ -372,11 +401,12 @@ namespace OutlineForm_Example
             //-------------------------------------------------------------
             panelDInfDer = new Panel();
             panelUniversal.Controls.Add(panelDInfDer);
+            panelDInfDer.Tag = SelectedPanel.EsquinaInferiorDerecho;
             panelDInfDer.Name = "Outline - BottomRight";
             panelDInfDer.Left = panelIzquierdo == null ? OriginalSizeWindow.Width + padding.Right : OriginalSizeWindow.Width + border.Left + margin.Left + padding.Width();
             panelDInfDer.Top = panelSuperior == null ? OriginalSizeWindow.Height + padding.Bottom : OriginalSizeWindow.Height + border.Top + margin.Top + padding.Height();
             panelDInfDer.Size = new Size(border.Right, border.Bottom);
-            panelDInfDer.BackColor = colorInfDer;
+            panelDInfDer.BackColor = _colorInfDer;
             panelDInfDer.TabStop = false;
             panelDInfDer.SendToBack();
 

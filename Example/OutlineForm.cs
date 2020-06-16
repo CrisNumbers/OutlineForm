@@ -97,14 +97,16 @@ namespace OutlineForm_Example
         Rect padding; //Define el padding del contorno.
 
         Color colorPrimary; //Color del border.
-        Color colorIzquierdo = Color.Black;
-        Color colorDerecho = Color.Black;
-        Color colorSuperior = Color.Black;
-        Color colorInferior = Color.Black;
-        Color colorSupDer = Color.Black;
-        Color colorSupIzq = Color.Black;
-        Color colorInfDer = Color.Black;
-        Color colorInfIzq = Color.Black;
+        
+
+        Color _colorIzquierdo = Color.Black;
+        Color _colorDerecho = Color.Black;
+        Color _colorSuperior = Color.Black;
+        Color _colorInferior = Color.Black;
+        Color _colorSupDer = Color.Black;
+        Color _colorSupIzq = Color.Black;
+        Color _colorInfDer = Color.Black;
+        Color _colorInfIzq = Color.Black;
         Color colorSecundary; //Color del contenido del border.
 
         string nombre; //Nombre actual de la ventana.
@@ -232,6 +234,7 @@ namespace OutlineForm_Example
 
                         panelIzquierdo = new Panel();
                         panelUniversal.Controls.Add(panelIzquierdo);
+                        panelIzquierdo.Tag = SelectedPanel.Izquierdo;
                         panelIzquierdo.Name = "Outline - Left";
                         panelIzquierdo.Left = margin.Left;
                         panelIzquierdo.Top = panelSuperior == null ? -padding.Top : border.Top + margin.Top;
@@ -239,7 +242,7 @@ namespace OutlineForm_Example
                         // panelIzquierdo.MouseMove += new MouseEventHandler(panel_MouseMove);
                         // panelIzquierdo.MouseDown += new MouseEventHandler(panel_MouseDown);
                         // panelIzquierdo.MouseUp += new MouseEventHandler(panel_MouseUp);
-                        panelIzquierdo.BackColor = colorIzquierdo;
+                        panelIzquierdo.BackColor = _colorIzquierdo;
                         panelIzquierdo.TabStop = false;
                         panelIzquierdo.SendToBack();
                         //panelIzquierdo.Visible = false;
@@ -290,6 +293,7 @@ namespace OutlineForm_Example
 
                         panelDerecho = new Panel();
                         panelUniversal.Controls.Add(panelDerecho);
+                        panelDerecho.Tag = SelectedPanel.Derecho;
                         panelDerecho.Name = "Outline - Right";
                         panelDerecho.Left = panelIzquierdo == null ? OriginalSizeWindow.Width + padding.Right : OriginalSizeWindow.Width + padding.Width() + border.Left + margin.Left;
                         panelDerecho.Top = panelSuperior == null ? -padding.Top : border.Top + margin.Top;
@@ -299,7 +303,7 @@ namespace OutlineForm_Example
                         // panelDerecho.MouseMove += new MouseEventHandler(panel_MouseMove);
                         // panelDerecho.MouseDown += new MouseEventHandler(panel_MouseDown);
                         // panelDerecho.MouseUp += new MouseEventHandler(panel_MouseUp);
-                        panelDerecho.BackColor = colorDerecho;
+                        panelDerecho.BackColor = _colorDerecho;
                         panelDerecho.TabStop = false;
                         panelDerecho.SendToBack();
                         //panelDerecho.Visible = false;
@@ -350,6 +354,7 @@ namespace OutlineForm_Example
 
                         panelInferior = new Panel();
                         panelUniversal.Controls.Add(panelInferior);
+                        panelInferior.Tag = SelectedPanel.Inferior;
                         panelInferior.Name = "Outline - Bottom";
                         panelInferior.Left = panelIzquierdo == null ? -padding.Left : border.Left + margin.Left;
                         panelInferior.Top = panelSuperior == null ? OriginalSizeWindow.Height + padding.Bottom : OriginalSizeWindow.Height + padding.Height() + border.Top + margin.Top;
@@ -357,7 +362,7 @@ namespace OutlineForm_Example
                         // panelInferior.MouseMove += new MouseEventHandler(panel_MouseMove);
                         // panelInferior.MouseDown += new MouseEventHandler(panel_MouseDown);
                         // panelInferior.MouseUp += new MouseEventHandler(panel_MouseUp);
-                        panelInferior.BackColor = colorInferior;
+                        panelInferior.BackColor = _colorInferior;
                         panelInferior.TabStop = false;
                         panelInferior.SendToBack();
                         //panelInferior.Visible = false;
@@ -418,6 +423,7 @@ namespace OutlineForm_Example
 
                         panelSuperior = new Panel();
                         panelUniversal.Controls.Add(panelSuperior);
+                        panelSuperior.Tag = SelectedPanel.Superior;
                         panelSuperior.Name = "Outline - Top";
                         panelSuperior.Left = panelIzquierdo == null ? -padding.Left : border.Left + margin.Left;
                         panelSuperior.Top = margin.Top;
@@ -425,7 +431,7 @@ namespace OutlineForm_Example
                         panelSuperior.MouseMove += new MouseEventHandler(panel_MouseMove);
                         panelSuperior.MouseDown += new MouseEventHandler(panel_MouseDown);
                         panelSuperior.MouseUp += new MouseEventHandler(panel_MouseUp);
-                        panelSuperior.BackColor = colorSuperior;
+                        panelSuperior.BackColor = _colorSuperior;
                         panelSuperior.TabStop = false;
                         panelSuperior.SendToBack();
                         //panelSuperior.Visible = false;
@@ -479,7 +485,47 @@ namespace OutlineForm_Example
 
             }
         }
-      
+
+        public Color LeftColor
+        {
+            get => _colorIzquierdo;
+            private set => _colorIzquierdo = panelIzquierdo.BackColor = value;
+        }
+        public Color RightColor
+        {
+            get => _colorDerecho;
+            private set => _colorDerecho = panelDerecho.BackColor = value;
+        }
+        public Color TopColor
+        {
+            get => _colorSuperior;
+            private set => _colorSuperior = panelSuperior.BackColor = value;
+        }
+        public Color BottomColor
+        {
+            get => _colorInferior;
+            private set => _colorInferior = panelInferior.BackColor = value;
+        }
+        public Color TopLeftColor
+        {
+            get => _colorSupIzq;
+            private set => _colorSupIzq = panelDSupIzq.BackColor = value;
+        }
+        public Color TopRightColor
+        {
+            get => _colorSupDer;
+            private set => _colorSupDer = panelDSupDer.BackColor = value;
+        }
+        public Color BottomLeftColor
+        {
+            get => _colorInfIzq;
+            private set => _colorInfIzq = panelDInfIzq.BackColor = value;
+        }
+        public Color BottomRightColor
+        {
+            get => _colorInfDer;
+            private set => _colorInfDer = panelDInfDer.BackColor = value;
+        }
         #endregion
         #endregion
     }
