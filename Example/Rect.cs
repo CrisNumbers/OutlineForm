@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OutlineForm_Example
+namespace FormDecoration
 {
     public class Rect
     {

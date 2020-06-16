@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29230.47
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OutlineForm_Example", "OutlineForm_Example.csproj", "{3E53F85D-3430-4481-885F-64C6E978B746}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OutlineForm", "OutlineForm.csproj", "{3E53F85D-3430-4481-885F-64C6E978B746}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

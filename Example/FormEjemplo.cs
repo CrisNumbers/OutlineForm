@@ -8,12 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace OutlineForm_Example
+namespace FormDecoration
 {
-    public partial class Form1 : Form
+    public partial class FormEjemplo : Form
     {
         OutlineForm outlineForm;
-        public Form1()
+        public FormEjemplo()
         {
             InitializeComponent();
         }
@@ -43,12 +43,18 @@ namespace OutlineForm_Example
             ReiniciarOutlineForm();
         }
         
-
+        /// <summary>
+        /// Este metodo se muestra los componentes principales de la clase OutlineForm
+        /// </summary>
         private void ReiniciarOutlineForm()
         {
             //Instanciar el objeto.
             //Con solo esta linea, se crea un marco por defecto, con Border: Rect.Window, y Margin y Padding: Rect.Zero
             outlineForm = new OutlineForm(this);
+
+            //Para comprobar la version de la clase, se usa la variable estatica.
+            //Esto solo es para información.
+            l_Version.Text = "Version " + OutlineForm.version;
 
             //Podemos especificar unas medidas a nuestro gusto
             outlineForm.SetBorder(Rect.Window);
@@ -84,7 +90,7 @@ namespace OutlineForm_Example
             outlineForm.SetColorPanel(OutlineForm.SelectedPanel.Todos, Color.Black);
 
             //Establecer el titulo de la ventana
-            outlineForm.Titulo = txt_Titulo.Text;
+            outlineForm.Title = txt_Titulo.Text;
 
             //Obtener el border (las lineas) de la ventana.
             txt_Border_Derecho.Text = outlineForm.Border.Right.ToString();
@@ -141,24 +147,18 @@ namespace OutlineForm_Example
             
         }
 
-        private void Button1_Click(object sender, EventArgs e)
+        private void Txt_Titulo_TextChanged(object sender, EventArgs e)
         {
-
+            outlineForm.Title = txt_Titulo.Text;
         }
 
-
-        private void TextBox1_TextChanged(object sender, EventArgs e)
-        {
-            outlineForm.Titulo = txt_Titulo.Text;
-        }
-
-        private void MedidasBoton_Click(object sender, EventArgs e)
+        private void Btn_Actualizar_Click(object sender, EventArgs e)
         {
             outlineForm.SetBorderMarginPadding(
-                new Rect(int.Parse(txt_Border_Superior.Text), int.Parse(txt_Border_Derecho.Text), int.Parse(txt_Border_Inferior.Text), int.Parse(txt_Border_Izquierdo.Text)),
-                new Rect(int.Parse(txt_Margin_Superior.Text), int.Parse(txt_Margin_Derecho.Text), int.Parse(txt_Margin_Inferior.Text), int.Parse(txt_Margin_Izquierdo.Text)),
-                new Rect(int.Parse(txt_Padding_Superior.Text), int.Parse(txt_Padding_Derecho.Text), int.Parse(txt_Padding_Inferior.Text), int.Parse(txt_Padding_Izquierdo.Text))
-                );
+               new Rect(int.Parse(txt_Border_Superior.Text), int.Parse(txt_Border_Derecho.Text), int.Parse(txt_Border_Inferior.Text), int.Parse(txt_Border_Izquierdo.Text)),
+               new Rect(int.Parse(txt_Margin_Superior.Text), int.Parse(txt_Margin_Derecho.Text), int.Parse(txt_Margin_Inferior.Text), int.Parse(txt_Margin_Izquierdo.Text)),
+               new Rect(int.Parse(txt_Padding_Superior.Text), int.Parse(txt_Padding_Derecho.Text), int.Parse(txt_Padding_Inferior.Text), int.Parse(txt_Padding_Izquierdo.Text))
+               );
         }
 
         private void Btn_Destroy_Click(object sender, EventArgs e)

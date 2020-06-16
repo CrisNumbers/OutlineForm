@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace OutlineForm_Example
+namespace FormDecoration
 {
     /// <summary>
     /// Crea un contorno dinamico de manera automatica alrededor del Form.
@@ -88,6 +88,7 @@ namespace OutlineForm_Example
         #endregion
 
         #region OF_Variables
+        public static readonly string version = "0.2.4";
         static List<Form> listaForms = new List<Form>();
         Size OriginalSizeWindow = Size.Empty;
         FormBorderStyle OriginalFormBorderStyle;
@@ -114,6 +115,9 @@ namespace OutlineForm_Example
         bool _isPanelDerecho = true; //Verifica si existe el panel derecho.
         bool _isPanelSuperior = true; //Verifica si existe el panel superior.
         bool _isPanelInferior = true; //Verifica si existe el panel inferior.
+        bool _isBotonCerrar = true;
+        bool _isBotonMinimizar = true;
+        bool _isBotonOpciones = true;
 
         bool isSosteniendo; //Variable para controlar el movimiento del mouse.
         int movX; //Posicion en X del mouse.
@@ -127,17 +131,17 @@ namespace OutlineForm_Example
         public Button BotonOpciones; //Boton que muestra las opciones. Es pública en caso de agregar mas eventos.
         Label NombreVentana; //Label con el nombre de la ventana.
 
-        Panel panelUniversal; //Panel que contiene a todos los paneles. Esto es por seguridad en caso de hacer un foreach con los controles del myForm.
-        Panel panelSuperior; //Panel superior, mas grande que el resto de paneles.
-        Panel panelIzquierdo; //Panel izquierdo.
-        Panel panelDerecho; //Panel derecho.
-        Panel panelInferior; //Panel inferior.
-        Panel panelDSupDer; //Panel diagonal superior derecho.
-        Panel panelDSupIzq; //Panel diagonal superior izquierdo.
-        Panel panelDInfDer; //Panel diagonal inferior derecho.
-        Panel panelDInfIzq; //Panel diagonal inferior izquierdo.
-        Panel panelOpciones; //Panel que cubre todo el Form.
-        Panel panelCentro; //Panel que cubre el centro de los demas paneles. Sirve para adaptar el contenido
+        Panel _panelUniversal; //Panel que contiene a todos los paneles. Esto es por seguridad en caso de hacer un foreach con los controles del myForm.
+        Panel _panelSuperior; //Panel superior, mas grande que el resto de paneles.
+        Panel _panelIzquierdo; //Panel izquierdo.
+        Panel _panelDerecho; //Panel derecho.
+        Panel _panelInferior; //Panel inferior.
+        Panel _panelDSupDer; //Panel diagonal superior derecho.
+        Panel _panelDSupIzq; //Panel diagonal superior izquierdo.
+        Panel _panelDInfDer; //Panel diagonal inferior derecho.
+        Panel _panelDInfIzq; //Panel diagonal inferior izquierdo.
+        Panel _panelOpciones; //Panel que cubre todo el Form.
+        Panel _panelCentro; //Panel que cubre el centro de los demas paneles. Sirve para adaptar el contenido
         Timer timerPanelOpciones; //Timer que servirá para hacer una animación de aparición del Panel Completo.
         #endregion
 
@@ -159,7 +163,7 @@ namespace OutlineForm_Example
         /// <summary>
         /// Obtiene o declara el nombre de la ventana.
         /// </summary>
-        public string Titulo
+        public string Title
         {
             get
             {
@@ -217,55 +221,65 @@ namespace OutlineForm_Example
                 _isPanelIzquierdo = value;
                 if (value)
                 {
-                    if (panelIzquierdo == null)
+                    if (_panelIzquierdo == null)
                     {
                         myForm.Size = new Size(myForm.Width + border.Left + margin.Left + padding.Left, myForm.Height);
                         myForm.Location = new Point(myForm.Location.X - border.Left - margin.Left - padding.Left, myForm.Location.Y);
-                        panelUniversal.Size = new Size(myForm.Width, myForm.Height); 
-                        panelOpciones.Size = new Size(myForm.Width, myForm.Height);
-                        if (panelDerecho != null)
-                            panelDerecho.Location = new Point(panelDerecho.Location.X + border.Left + margin.Left + padding.Left,panelDerecho.Location.Y);
-                        if (panelSuperior != null)
-                            panelSuperior.Location = new Point(panelSuperior.Location.X + border.Left + margin.Left + padding.Left, panelSuperior.Location.Y);
-                        if (panelInferior != null)                                                                 
-                            panelInferior.Location = new Point(panelInferior.Location.X + border.Left + margin.Left + padding.Left, panelInferior.Location.Y);
-                        if (panelCentro != null)
-                            panelCentro.Location = new Point(border.Left + margin.Left + padding.Left, panelCentro.Location.Y);
+                        _panelUniversal.Size = new Size(myForm.Width, myForm.Height); 
+                        _panelOpciones.Size = new Size(myForm.Width, myForm.Height);
+                        if (_panelDerecho != null)
+                            _panelDerecho.Location = new Point(_panelDerecho.Location.X + border.Left + margin.Left + padding.Left,_panelDerecho.Location.Y);
+                        if (_panelSuperior != null)
+                            _panelSuperior.Location = new Point(_panelSuperior.Location.X + border.Left + margin.Left + padding.Left, _panelSuperior.Location.Y);
+                        if (_panelInferior != null)                                                                 
+                            _panelInferior.Location = new Point(_panelInferior.Location.X + border.Left + margin.Left + padding.Left, _panelInferior.Location.Y);
+                        if (_panelCentro != null)
+                            _panelCentro.Location = new Point(border.Left + margin.Left + padding.Left, _panelCentro.Location.Y);
 
-                        panelIzquierdo = new Panel();
-                        panelUniversal.Controls.Add(panelIzquierdo);
-                        panelIzquierdo.Tag = SelectedPanel.Izquierdo;
-                        panelIzquierdo.Name = "Outline - Left";
-                        panelIzquierdo.Left = margin.Left;
-                        panelIzquierdo.Top = panelSuperior == null ? -padding.Top : border.Top + margin.Top;
-                        panelIzquierdo.Size = new Size(border.Left, OriginalSizeWindow.Height + padding.Height());
+                        _panelIzquierdo = new Panel();
+                        _panelUniversal.Controls.Add(_panelIzquierdo);
+                        _panelIzquierdo.Tag = SelectedPanel.Izquierdo;
+                        _panelIzquierdo.Name = "Outline - Left";
+                        _panelIzquierdo.Left = margin.Left;
+                        _panelIzquierdo.Top = _panelSuperior == null ? -padding.Top : border.Top + margin.Top;
+                        _panelIzquierdo.Size = new Size(border.Left, OriginalSizeWindow.Height + padding.Height());
                         // panelIzquierdo.MouseMove += new MouseEventHandler(panel_MouseMove);
                         // panelIzquierdo.MouseDown += new MouseEventHandler(panel_MouseDown);
                         // panelIzquierdo.MouseUp += new MouseEventHandler(panel_MouseUp);
-                        panelIzquierdo.BackColor = _colorIzquierdo;
-                        panelIzquierdo.TabStop = false;
-                        panelIzquierdo.SendToBack();
+                        _panelIzquierdo.BackColor = _colorIzquierdo;
+                        _panelIzquierdo.TabStop = false;
+                        _panelIzquierdo.SendToBack();
                         //panelIzquierdo.Visible = false;
+
+                        if (NombreVentana != null)
+                        {
+                            NombreVentana.Left = 10;
+                        }
                     }
                 }
                 else
                 {
-                    if (panelIzquierdo != null)
+                    if (_panelIzquierdo != null)
                     {
-                        panelIzquierdo.Dispose();
-                        panelIzquierdo = null;
-                        myForm.Size = new Size(panelDerecho == null ? OriginalSizeWindow.Width : OriginalSizeWindow.Width + padding.Right + margin.Right + border.Right, myForm.Height);
+                        _panelIzquierdo.Dispose();
+                        _panelIzquierdo = null;
+                        myForm.Size = new Size(_panelDerecho == null ? OriginalSizeWindow.Width : OriginalSizeWindow.Width + padding.Right + margin.Right + border.Right, myForm.Height);
                         myForm.Location = new Point(myForm.Location.X + border.Left + margin.Left + padding.Left, myForm.Location.Y);
-                        panelUniversal.Size = new Size(myForm.Width, myForm.Height);
-                        panelOpciones.Size = new Size(myForm.Width, myForm.Height);
+                        _panelUniversal.Size = new Size(myForm.Width, myForm.Height);
+                        _panelOpciones.Size = new Size(myForm.Width, myForm.Height);
 
-                        if (panelDerecho != null)
-                            panelDerecho.Location = new Point(panelDerecho.Location.X - border.Left - margin.Left - padding.Left, panelDerecho.Location.Y);
-                        if (panelSuperior != null)
-                            panelSuperior.Location = new Point(panelSuperior.Location.X - border.Left - margin.Left - padding.Left, panelSuperior.Location.Y);
-                        if (panelInferior != null)                                                                
-                            panelInferior.Location = new Point(panelInferior.Location.X - border.Left - margin.Left - padding.Left, panelInferior.Location.Y);
-                        panelCentro.Location = new Point(0, panelCentro.Location.Y);
+                        if (_panelDerecho != null)
+                            _panelDerecho.Location = new Point(_panelDerecho.Location.X - border.Left - margin.Left - padding.Left, _panelDerecho.Location.Y);
+                        if (_panelSuperior != null)
+                            _panelSuperior.Location = new Point(_panelSuperior.Location.X - border.Left - margin.Left - padding.Left, _panelSuperior.Location.Y);
+                        if (_panelInferior != null)                                                                
+                            _panelInferior.Location = new Point(_panelInferior.Location.X - border.Left - margin.Left - padding.Left, _panelInferior.Location.Y);
+                        _panelCentro.Location = new Point(0, _panelCentro.Location.Y);
+
+                        if (NombreVentana != null)
+                        {
+                            NombreVentana.Left += padding.Left;
+                        }
                     }
                 }
                 AcomodarEsquinas();
@@ -285,47 +299,64 @@ namespace OutlineForm_Example
                 _isPanelDerecho = value;
                 if (value)
                 {
-                    if (panelDerecho == null)
+                    if (_panelDerecho == null)
                     {
                         myForm.Size = new Size(myForm.Width + border.Right + margin.Right + padding.Right, myForm.Height);
-                        panelUniversal.Size = new Size(myForm.Width, myForm.Height);
-                        panelOpciones.Size = new Size(myForm.Width, myForm.Height);
+                        _panelUniversal.Size = new Size(myForm.Width, myForm.Height);
+                        _panelOpciones.Size = new Size(myForm.Width, myForm.Height);
 
-                        panelDerecho = new Panel();
-                        panelUniversal.Controls.Add(panelDerecho);
-                        panelDerecho.Tag = SelectedPanel.Derecho;
-                        panelDerecho.Name = "Outline - Right";
-                        panelDerecho.Left = panelIzquierdo == null ? OriginalSizeWindow.Width + padding.Right : OriginalSizeWindow.Width + padding.Width() + border.Left + margin.Left;
-                        panelDerecho.Top = panelSuperior == null ? -padding.Top : border.Top + margin.Top;
-                        panelDerecho.Size = new Size(border.Right, OriginalSizeWindow.Height + padding.Height());
-                        panelDerecho.MouseHover += new EventHandler(panel_Resize_MouseHover);
-                        panelDerecho.MouseLeave += new EventHandler(panel_Resize_MouseLeave);
+                        _panelDerecho = new Panel();
+                        _panelUniversal.Controls.Add(_panelDerecho);
+                        _panelDerecho.Tag = SelectedPanel.Derecho;
+                        _panelDerecho.Name = "Outline - Right";
+                        _panelDerecho.Left = _panelIzquierdo == null ? OriginalSizeWindow.Width + padding.Right : OriginalSizeWindow.Width + padding.Width() + border.Left + margin.Left;
+                        _panelDerecho.Top = _panelSuperior == null ? -padding.Top : border.Top + margin.Top;
+                        _panelDerecho.Size = new Size(border.Right, OriginalSizeWindow.Height + padding.Height());
+                        _panelDerecho.MouseHover += new EventHandler(panel_Resize_MouseHover);
+                        _panelDerecho.MouseLeave += new EventHandler(panel_Resize_MouseLeave);
                         // panelDerecho.MouseMove += new MouseEventHandler(panel_MouseMove);
                         // panelDerecho.MouseDown += new MouseEventHandler(panel_MouseDown);
                         // panelDerecho.MouseUp += new MouseEventHandler(panel_MouseUp);
-                        panelDerecho.BackColor = _colorDerecho;
-                        panelDerecho.TabStop = false;
-                        panelDerecho.SendToBack();
+                        _panelDerecho.BackColor = _colorDerecho;
+                        _panelDerecho.TabStop = false;
+                        _panelDerecho.SendToBack();
                         //panelDerecho.Visible = false;
+
+                        if (BotonCerrar != null)
+                        {
+                            BotonCerrar.Left = _panelSuperior.Width - 40;
+                        }
+                        if (BotonMinimizar != null)
+                        {
+                            BotonMinimizar.Left = _panelSuperior.Width - 80;
+                        }
+                        if (BotonOpciones != null)
+                        {
+                            BotonOpciones.Left = _panelSuperior.Width - 120;
+                        }
                     }
                 }
                 else
                 {
-                    if (panelDerecho != null)
+                    if (_panelDerecho != null)
                     {
-                        panelDerecho.Dispose();
-                        panelDerecho = null;
+                        _panelDerecho.Dispose();
+                        _panelDerecho = null;
                         myForm.Size = new Size(myForm.Width - border.Right - margin.Right - padding.Right, myForm.Height);
-                        panelUniversal.Size = new Size(myForm.Width, myForm.Height);
-                        panelOpciones.Size = new Size(myForm.Width, myForm.Height);
+                        _panelUniversal.Size = new Size(myForm.Width, myForm.Height);
+                        _panelOpciones.Size = new Size(myForm.Width, myForm.Height);
 
-                        if (panelSuperior != null)
+                        if (BotonCerrar != null)
                         {
-                          //  panelSuperior.Size = new Size(panelSuperior.Width - border.Right, panelSuperior.Height);
+                            BotonCerrar.Left -= padding.Right;
                         }
-                        if (panelInferior != null)
+                        if (BotonMinimizar != null)
                         {
-                           // panelInferior.Size = new Size(panelInferior.Width - border.Right, panelInferior.Height );
+                            BotonMinimizar.Left -= padding.Right;
+                        }
+                        if (BotonOpciones != null)
+                        {        
+                            BotonOpciones.Left -= padding.Right;
                         }
                     }
                 }
@@ -346,43 +377,43 @@ namespace OutlineForm_Example
                 _isPanelInferior = value;
                 if (value)
                 {
-                    if (panelInferior == null)
+                    if (_panelInferior == null)
                     {
                         myForm.Size = new Size(myForm.Width, myForm.Height + border.Bottom + margin.Bottom + padding.Bottom);
-                        panelUniversal.Size = new Size(myForm.Width, myForm.Height);
-                        panelOpciones.Size = new Size(myForm.Width, myForm.Height);
+                        _panelUniversal.Size = new Size(myForm.Width, myForm.Height);
+                        _panelOpciones.Size = new Size(myForm.Width, myForm.Height);
 
-                        panelInferior = new Panel();
-                        panelUniversal.Controls.Add(panelInferior);
-                        panelInferior.Tag = SelectedPanel.Inferior;
-                        panelInferior.Name = "Outline - Bottom";
-                        panelInferior.Left = panelIzquierdo == null ? -padding.Left : border.Left + margin.Left;
-                        panelInferior.Top = panelSuperior == null ? OriginalSizeWindow.Height + padding.Bottom : OriginalSizeWindow.Height + padding.Height() + border.Top + margin.Top;
-                        panelInferior.Size = new Size(OriginalSizeWindow.Width + padding.Width(), border.Bottom);
+                        _panelInferior = new Panel();
+                        _panelUniversal.Controls.Add(_panelInferior);
+                        _panelInferior.Tag = SelectedPanel.Inferior;
+                        _panelInferior.Name = "Outline - Bottom";
+                        _panelInferior.Left = _panelIzquierdo == null ? -padding.Left : border.Left + margin.Left;
+                        _panelInferior.Top = _panelSuperior == null ? OriginalSizeWindow.Height + padding.Bottom : OriginalSizeWindow.Height + padding.Height() + border.Top + margin.Top;
+                        _panelInferior.Size = new Size(OriginalSizeWindow.Width + padding.Width(), border.Bottom);
                         // panelInferior.MouseMove += new MouseEventHandler(panel_MouseMove);
                         // panelInferior.MouseDown += new MouseEventHandler(panel_MouseDown);
                         // panelInferior.MouseUp += new MouseEventHandler(panel_MouseUp);
-                        panelInferior.BackColor = _colorInferior;
-                        panelInferior.TabStop = false;
-                        panelInferior.SendToBack();
+                        _panelInferior.BackColor = _colorInferior;
+                        _panelInferior.TabStop = false;
+                        _panelInferior.SendToBack();
                         //panelInferior.Visible = false;
                     }
                 }
                 else
                 {
-                    if (panelInferior != null)
+                    if (_panelInferior != null)
                     {
-                        panelInferior.Dispose();
-                        panelInferior = null;
+                        _panelInferior.Dispose();
+                        _panelInferior = null;
                         myForm.Size = new Size(myForm.Width, myForm.Height - border.Bottom - margin.Bottom - padding.Bottom);
-                        panelUniversal.Size = new Size(myForm.Width, myForm.Height);
-                        panelOpciones.Size = new Size(myForm.Width, myForm.Height);
+                        _panelUniversal.Size = new Size(myForm.Width, myForm.Height);
+                        _panelOpciones.Size = new Size(myForm.Width, myForm.Height);
 
-                        if (panelDerecho != null)
+                        if (_panelDerecho != null)
                         {
                             //panelDerecho.Size = new Size(panelDerecho.Width, panelDerecho.Height - border.Bottom );
                         }
-                        if (panelIzquierdo != null)
+                        if (_panelIzquierdo != null)
                         {
                             //panelIzquierdo.Size = new Size(panelIzquierdo.Width, panelIzquierdo.Height - border.Bottom);
                         }
@@ -405,35 +436,35 @@ namespace OutlineForm_Example
                 _isPanelSuperior = value;
                 if (value)
                 {
-                    if (panelSuperior == null)
+                    if (_panelSuperior == null)
                     {
                         myForm.Size = new Size(myForm.Width, myForm.Height + border.Top + margin.Top + padding.Top);
                         myForm.Location = new Point(myForm.Location.X, myForm.Location.Y - border.Top - margin.Top - padding.Top);
-                        panelUniversal.Size = new Size(myForm.Width, myForm.Height);
-                        panelOpciones.Size = new Size(myForm.Width, myForm.Height);
-                        if (panelInferior != null)
-                            panelInferior.Location = new Point(panelInferior.Location.X , panelInferior.Location.Y + border.Top + margin.Top + padding.Top);
-                        if (panelDerecho != null)
-                            panelDerecho.Location = new Point(panelDerecho.Location.X, panelDerecho.Location.Y + border.Top + margin.Top + padding.Top);
-                        if (panelIzquierdo != null)
-                            panelIzquierdo.Location = new Point(panelIzquierdo.Location.X, panelIzquierdo.Location.Y + border.Top + margin.Top + padding.Top);
-                        if (panelCentro != null)
-                            panelCentro.Location = new Point(panelCentro.Location.X, panelCentro.Location.Y + border.Top + margin.Top + padding.Top);
+                        _panelUniversal.Size = new Size(myForm.Width, myForm.Height);
+                        _panelOpciones.Size = new Size(myForm.Width, myForm.Height);
+                        if (_panelInferior != null)
+                            _panelInferior.Location = new Point(_panelInferior.Location.X , _panelInferior.Location.Y + border.Top + margin.Top + padding.Top);
+                        if (_panelDerecho != null)
+                            _panelDerecho.Location = new Point(_panelDerecho.Location.X, _panelDerecho.Location.Y + border.Top + margin.Top + padding.Top);
+                        if (_panelIzquierdo != null)
+                            _panelIzquierdo.Location = new Point(_panelIzquierdo.Location.X, _panelIzquierdo.Location.Y + border.Top + margin.Top + padding.Top);
+                        if (_panelCentro != null)
+                            _panelCentro.Location = new Point(_panelCentro.Location.X, _panelCentro.Location.Y + border.Top + margin.Top + padding.Top);
 
 
-                        panelSuperior = new Panel();
-                        panelUniversal.Controls.Add(panelSuperior);
-                        panelSuperior.Tag = SelectedPanel.Superior;
-                        panelSuperior.Name = "Outline - Top";
-                        panelSuperior.Left = panelIzquierdo == null ? -padding.Left : border.Left + margin.Left;
-                        panelSuperior.Top = margin.Top;
-                        panelSuperior.Size = new Size(OriginalSizeWindow.Width + padding.Width(), border.Top);
-                        panelSuperior.MouseMove += new MouseEventHandler(panel_MouseMove);
-                        panelSuperior.MouseDown += new MouseEventHandler(panel_MouseDown);
-                        panelSuperior.MouseUp += new MouseEventHandler(panel_MouseUp);
-                        panelSuperior.BackColor = _colorSuperior;
-                        panelSuperior.TabStop = false;
-                        panelSuperior.SendToBack();
+                        _panelSuperior = new Panel();
+                        _panelUniversal.Controls.Add(_panelSuperior);
+                        _panelSuperior.Tag = SelectedPanel.Superior;
+                        _panelSuperior.Name = "Outline - Top";
+                        _panelSuperior.Left = _panelIzquierdo == null ? -padding.Left : border.Left + margin.Left;
+                        _panelSuperior.Top = margin.Top;
+                        _panelSuperior.Size = new Size(OriginalSizeWindow.Width + padding.Width(), border.Top);
+                        _panelSuperior.MouseMove += new MouseEventHandler(panel_MouseMove);
+                        _panelSuperior.MouseDown += new MouseEventHandler(panel_MouseDown);
+                        _panelSuperior.MouseUp += new MouseEventHandler(panel_MouseUp);
+                        _panelSuperior.BackColor = _colorSuperior;
+                        _panelSuperior.TabStop = false;
+                        _panelSuperior.SendToBack();
                         //panelSuperior.Visible = false;
 
                         CrearBotonMinimizar();
@@ -444,22 +475,22 @@ namespace OutlineForm_Example
                 }
                 else
                 {
-                    if (panelSuperior != null)
+                    if (_panelSuperior != null)
                     {
-                        panelSuperior.Dispose();
-                        panelSuperior = null;
-                        myForm.Size = new Size(myForm.Width, panelInferior == null ? OriginalSizeWindow.Height : OriginalSizeWindow.Height + padding.Bottom + margin.Bottom + border.Bottom  );
+                        _panelSuperior.Dispose();
+                        _panelSuperior = null;
+                        myForm.Size = new Size(myForm.Width, _panelInferior == null ? OriginalSizeWindow.Height : OriginalSizeWindow.Height + padding.Bottom + margin.Bottom + border.Bottom  );
                         myForm.Location = new Point(myForm.Location.X, myForm.Location.Y + border.Top + margin.Top + padding.Top);
-                        panelUniversal.Size = new Size(myForm.Width, myForm.Height);
-                        panelOpciones.Size = new Size(myForm.Width, myForm.Height);
+                        _panelUniversal.Size = new Size(myForm.Width, myForm.Height);
+                        _panelOpciones.Size = new Size(myForm.Width, myForm.Height);
 
-                        if (panelInferior != null)
-                            panelInferior.Location = new Point(panelInferior.Location.X, panelInferior.Location.Y - border.Top - margin.Top - padding.Top);
-                        if (panelDerecho != null)
-                            panelDerecho.Location = new Point(panelDerecho.Location.X, panelDerecho.Location.Y - border.Top - margin.Top - padding.Top);
-                        if (panelIzquierdo != null)
-                            panelIzquierdo.Location = new Point(panelIzquierdo.Location.X, panelIzquierdo.Location.Y - border.Top - margin.Top - padding.Top);
-                        panelCentro.Location = new Point(panelCentro.Location.X, 0);
+                        if (_panelInferior != null)
+                            _panelInferior.Location = new Point(_panelInferior.Location.X, _panelInferior.Location.Y - border.Top - margin.Top - padding.Top);
+                        if (_panelDerecho != null)
+                            _panelDerecho.Location = new Point(_panelDerecho.Location.X, _panelDerecho.Location.Y - border.Top - margin.Top - padding.Top);
+                        if (_panelIzquierdo != null)
+                            _panelIzquierdo.Location = new Point(_panelIzquierdo.Location.X, _panelIzquierdo.Location.Y - border.Top - margin.Top - padding.Top);
+                        _panelCentro.Location = new Point(_panelCentro.Location.X, 0);
                     }
                 }
                 AcomodarEsquinas();
@@ -469,19 +500,19 @@ namespace OutlineForm_Example
         {
             set
             {
-                panelCentro = new Panel();
-                panelUniversal.Controls.Add(panelCentro);
-                panelCentro.Name = "Outline - Center";
-                panelCentro.Left = panelIzquierdo != null ? panelIzquierdo.Right + padding.Left : 0;
-                panelCentro.Top = panelSuperior != null ? panelSuperior.Bottom + padding.Top : 0;
-                panelCentro.Size = new Size
+                _panelCentro = new Panel();
+                _panelUniversal.Controls.Add(_panelCentro);
+                _panelCentro.Name = "Outline - Center";
+                _panelCentro.Left = _panelIzquierdo != null ? _panelIzquierdo.Right + padding.Left : 0;
+                _panelCentro.Top = _panelSuperior != null ? _panelSuperior.Bottom + padding.Top : 0;
+                _panelCentro.Size = new Size
                     (
                         OriginalSizeWindow.Width,
                         OriginalSizeWindow.Height
                     );
-                panelCentro.BackColor = colorSecundary;
-                panelCentro.TabStop = false;
-                panelCentro.SendToBack();
+                _panelCentro.BackColor = colorSecundary;
+                _panelCentro.TabStop = false;
+                _panelCentro.SendToBack();
 
             }
         }
@@ -489,42 +520,42 @@ namespace OutlineForm_Example
         public Color LeftColor
         {
             get => _colorIzquierdo;
-            private set => _colorIzquierdo = panelIzquierdo.BackColor = value;
+            private set => _colorIzquierdo = _panelIzquierdo.BackColor = value;
         }
         public Color RightColor
         {
             get => _colorDerecho;
-            private set => _colorDerecho = panelDerecho.BackColor = value;
+            private set => _colorDerecho = _panelDerecho.BackColor = value;
         }
         public Color TopColor
         {
             get => _colorSuperior;
-            private set => _colorSuperior = panelSuperior.BackColor = value;
+            private set => _colorSuperior = _panelSuperior.BackColor = value;
         }
         public Color BottomColor
         {
             get => _colorInferior;
-            private set => _colorInferior = panelInferior.BackColor = value;
+            private set => _colorInferior = _panelInferior.BackColor = value;
         }
         public Color TopLeftColor
         {
             get => _colorSupIzq;
-            private set => _colorSupIzq = panelDSupIzq.BackColor = value;
+            private set => _colorSupIzq = _panelDSupIzq.BackColor = value;
         }
         public Color TopRightColor
         {
             get => _colorSupDer;
-            private set => _colorSupDer = panelDSupDer.BackColor = value;
+            private set => _colorSupDer = _panelDSupDer.BackColor = value;
         }
         public Color BottomLeftColor
         {
             get => _colorInfIzq;
-            private set => _colorInfIzq = panelDInfIzq.BackColor = value;
+            private set => _colorInfIzq = _panelDInfIzq.BackColor = value;
         }
         public Color BottomRightColor
         {
             get => _colorInfDer;
-            private set => _colorInfDer = panelDInfDer.BackColor = value;
+            private set => _colorInfDer = _panelDInfDer.BackColor = value;
         }
         #endregion
         #endregion
