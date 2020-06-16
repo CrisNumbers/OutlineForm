@@ -57,11 +57,15 @@ namespace OutlineForm_Example
                 listaForms.Add(formP);
                 myForm = formP;
                 OriginalFormBorderStyle = myForm.FormBorderStyle;
-                Set("", Color.Black, myForm.BackColor, Rect.Window, Rect.Zero, Rect.Zero, true, true, true);
+                Set("", Color.Black, myForm.BackColor, Rect.Window, Rect.Zero, Rect.Zero, true, true, false);
             }
             else
                 throw new ExceptionOutlineForm("No se puede instanciar el objeto con un Form anteriormente agregado");
         }
+        /// <summary>
+        /// Destruye el marco por completo.
+        /// </summary>
+        /// <param name="changeFormBorderStyle">Si es true, entonces volverá el estilo del borde que tenía antes.</param>
         public void Destroy(bool changeFormBorderStyle = false)
         {
             Point location = new Point(
@@ -78,37 +82,14 @@ namespace OutlineForm_Example
         }
         #endregion
 
-        #region OF_MetodosPublicos
+        #region OF_MetodosPublicos       
         /// <summary>
-        /// Crea un marco con texto y botones alrededor del Form. En caso de existir uno, se eliminará y creará uno nuevo.
+        /// Especifica el Border, Margin y Padding del marco. Si cada elemento es igual al actual, entonces no generará cambios en la ventana.
+        /// <para>Sí el panel no existe en el marco, entonces no realizará cambio a dicho panel ni creará uno nuevo.</para>
         /// </summary>
-        /// <param name="nombreVentanaP"></param>
-        /// <param name="colorPrimaryP"></param>
-        /// <param name="colorSecundaryP"></param>
-        /// <param name="borderP"></param>
-        /// <param name="marginP"></param>
-        /// <param name="paddingP"></param>
-        /// <param name="botonMinimizarP"></param>
-        /// <param name="botonCerrarP"></param>
-        /// <param name="botonOpcionesP"></param>
-        public void Set(string nombreVentanaP, Color colorPrimaryP, Color colorSecundaryP, Rect borderP, Rect marginP, Rect paddingP, bool botonMinimizarP, bool botonCerrarP, bool botonOpcionesP)
-        {
-            Destructor();
-            border = new Rect(borderP);
-            margin = new Rect(marginP);
-            padding = new Rect(paddingP);
-            colorPrimary = colorPrimaryP;
-            colorSecundary = colorSecundaryP;
-            nombre = nombreVentanaP;
-
-            CrearMarco();
-            CrearPanelOpcionesControles();
-
-            if (!botonMinimizarP) BotonMinimizar.Visible = false;
-            if (!botonCerrarP) BotonCerrar.Visible = false;
-            if (!botonOpcionesP) BotonOpciones.Visible = false;
-            AddElements();
-        }
+        /// <param name="newBorderP">El nuevo Border que tendrá el marco.</param>
+        /// <param name="newMarginP">El nuevo Margin (externo al Border) que tendrá el marco.</param>
+        /// <param name="newPaddingP">El nuevo Padding (interno al Border) que tendrá el marco.</param>
         public void SetBorderMarginPadding(Rect newBorderP, Rect newMarginP, Rect newPaddingP)
         {
             Point myPoint = myForm.Location;
@@ -211,18 +192,38 @@ namespace OutlineForm_Example
 
             myForm.Location = myPoint;
         }
+        /// <summary>
+        /// Especifica el Border. Si el elemento es igual al actual, entonces no generará cambios en la ventana.
+        /// <para>Sí el panel no existe en el marco, entonces no realizará cambio a dicho panel ni creará uno nuevo.</para>
+        /// </summary>
+        /// <param name="newBorderP">El nuevo Border que tendrá el marco.</param>
         public void SetBorder(Rect newBorderP)
         {
             SetBorderMarginPadding(newBorderP, margin, padding);
         }
+        /// <summary>
+        /// Especifica el Margin. Si el elemento es igual al actual, entonces no generará cambios en la ventana.
+        /// <para>Sí el panel no existe en el marco, entonces no realizará cambio a dicho panel ni creará uno nuevo.</para>
+        /// </summary>
+        /// <param name="newMarginP">El nuevo Margin (externo al Border) que tendrá el marco.</param>
         public void SetMargin(Rect newMarginP)
         {
             SetBorderMarginPadding(border, newMarginP, padding);
         }
+        /// <summary>
+        /// Especifica el Padding. Si el elemento es igual al actual, entonces no generará cambios en la ventana.
+        /// <para>Sí el panel no existe en el marco, entonces no realizará cambio a dicho panel ni creará uno nuevo.</para>
+        /// </summary>
+        /// <param name="newPadding">El nuevo Padding (interno al Border) que tendrá el marco.</param>
         public void SetPadding(Rect newPadding)
         {
             SetBorderMarginPadding(border, margin, padding);
         }
+        /// <summary>
+        /// Especifica un color a una serie de paneles establecidos.
+        /// </summary>
+        /// <param name="panelP">Enum que contiene las posibles combinaciones de paneles. Dicha selección serán los que cambiarán el color.</param>
+        /// <param name="colorP">El nuevo color que se les asignará a cada panel.</param>
         public void SetColorPanel(SelectedPanel panelP, Color colorP)
         {
             List<Panel> lista = SearchPanel(panelP);
@@ -257,10 +258,18 @@ namespace OutlineForm_Example
                 }
             }
         }
+        /// <summary>
+        /// Comprueba si el Form está afuera de los limites del Área de Trabajo.
+        /// </summary>
+        /// <returns>Retorna true si la ventana está fuera de los limites.</returns>
         public bool IsWindowOutsideScreen() => myForm.Location.X < 0 ||
                 myForm.Location.X + myForm.Width > Screen.PrimaryScreen.WorkingArea.Width ||
                 myForm.Location.Y < 0 ||
                 myForm.Location.Y + myForm.Height > Screen.PrimaryScreen.WorkingArea.Height;
+        /// <summary>
+        /// Verifica si el Form está afuera de los limites del Área de Trabajo.
+        /// En caso de ser verdadero, entonces posicionará el Form.
+        /// </summary>
         public void SetWindowInScreen()
         {
             if (myForm.Location.X < 0)
@@ -276,6 +285,24 @@ namespace OutlineForm_Example
         #endregion
 
         #region OF_MetodosPrivados
+        private void Set(string nombreVentanaP, Color colorPrimaryP, Color colorSecundaryP, Rect borderP, Rect marginP, Rect paddingP, bool botonMinimizarP, bool botonCerrarP, bool botonOpcionesP)
+        {
+            Destructor();
+            border = new Rect(borderP);
+            margin = new Rect(marginP);
+            padding = new Rect(paddingP);
+            colorPrimary = colorPrimaryP;
+            colorSecundary = colorSecundaryP;
+            nombre = nombreVentanaP;
+
+            CrearMarco();
+            CrearPanelOpcionesControles();
+
+            if (!botonMinimizarP) BotonMinimizar.Visible = false;
+            if (!botonCerrarP) BotonCerrar.Visible = false;
+            if (!botonOpcionesP) BotonOpciones.Visible = false;
+            AddElements();
+        }
         private void CrearMarco()
         {
             //-------------------------------------------------------------
