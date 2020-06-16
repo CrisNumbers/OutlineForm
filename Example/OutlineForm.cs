@@ -20,75 +20,303 @@ namespace FormDecoration
 
             }
         }
-        public enum SelectedPanel {
+        /// <summary>
+        /// Enumerador con posibles combinaciones de seleccion de paneles del contorno.
+        /// </summary>
+        public enum SelectPanel {
+            //.-.-.-.-.-.-.-.-.-.-.-.-.-.
+            // Paneles por separado
+            //.-.-.-.-.-.-.-.-.-.-.-.-.-.
             /// <summary>
-            /// Panel izquierdo.
+            /// Panel izquierdo.     
+            /// <para>o o o</para>
+            /// <para>X o o</para>
+            /// <para>o o o</para>
             /// </summary>
-            Izquierdo = 1,
+            Left = 1,
             /// <summary>
-            /// Panel derecho.
+            /// Panel derecho.    
+            /// <para>o o o</para>
+            /// <para>o o X</para>
+            /// <para>o o o</para>
             /// </summary>
-            Derecho = 2,
+            Right = 2,
             /// <summary>
-            /// Panel superior.
+            /// Panel superior.    
+            /// <para>o X o</para>
+            /// <para>o o o</para>
+            /// <para>o o o</para>
             /// </summary>
-            Superior = 4,
+            Top = 4,
             /// <summary>
-            /// Panel inferior.
+            /// Panel inferior.    
+            /// <para>o o o</para>
+            /// <para>o o o</para>
+            /// <para>o X o</para>
             /// </summary>
-            Inferior = 8,
+            Bottom = 8,
             /// <summary>
-            /// Panel superior y panel derecho. No incluye esquinas.
+            /// Esquina superior derecha.    
+            /// <para>o o X</para>
+            /// <para>o o o</para>
+            /// <para>o o o</para>
             /// </summary>
-            EsquinaSuperiorDerecho = 16,
+            CornerTopRight = 16,
             /// <summary>
-            /// Panel superior y panel izquierdo. No incluye esquinas.
+            /// Esquina superior izquierda.    
+            /// <para>X o o</para>
+            /// <para>o o o</para>
+            /// <para>o o o</para>
             /// </summary>
-            EsquinaSuperiorIzquierdo = 32,
+            CornerTopLeft = 32,
             /// <summary>
-            /// Panel inferior y panel derecho. No incluye esquinas.
+            /// Esquina inferior derecha.    
+            /// <para>o o o</para>
+            /// <para>o o o</para>
+            /// <para>o o X</para>
             /// </summary>
-            EsquinaInferiorDerecho = 64,
+            CornerBottomRight = 64,
             /// <summary>
-            /// Panel inferior y panel izquierdo. No incluye esquinas.
+            /// Esquina inferior izquierda.    
+            /// <para>o o o</para>
+            /// <para>o o o</para>
+            /// <para>X o o</para>
             /// </summary>
-            EsquinaInferiorIzquierdo = 128,
+            CornerBottomLeft = 128,
 
-            SuperiorDerecho = 6,
-            SuperiorIzquierdo = 5,
-            InferiorDerecho = 10,
-            InferiorIzquierdo = 9,
-            LadosHorizontales = 12,
-            LadosVerticales = 3,
-            Todos = 15,
-            TodosExceptoDerecho = 13,
-            TodosExceptoIzquierdo = 14,
-            TodosExceptoSuperior = 11,
-            TodosExceptoInferior = 7,
+            //.-.-.-.-.-.-.-.-.-.-.-.-.-.
+            // Combinacion de paneles laterales. No esquinas.
+            //.-.-.-.-.-.-.-.-.-.-.-.-.-.
+            /// <summary>
+            /// Panel superior y panel derecho.    
+            /// <para>o X o</para>
+            /// <para>o o X</para>
+            /// <para>o o o</para>
+            /// </summary>
+            TopRight = Top + Right,
+            /// <summary>
+            /// Panel superior y panel izquierdo.    
+            /// <para>o X o</para>
+            /// <para>X o o</para>
+            /// <para>o o o</para>
+            /// </summary>
+            TopLeft = Top + Left,
+            /// <summary>
+            /// Panel inferior y panel derecho.    
+            /// <para>o o o</para>
+            /// <para>o o X</para>
+            /// <para>o X o</para>
+            /// </summary>
+            BottomRight = Bottom + Right,
+            /// <summary>
+            /// Panel inferior y panel izquierdo.    
+            /// <para>o o o</para>
+            /// <para>X o o</para>
+            /// <para>o X o</para>
+            /// </summary>
+            BottomLeft = Bottom + Left,
+            /// <summary>
+            /// Panel superior y panel inferior.    
+            /// <para>o X o</para>
+            /// <para>o o o</para>
+            /// <para>o X o</para>
+            /// </summary>
+            Horizontal = Top + Bottom,
+            /// <summary>
+            /// Panel izquierdo y panel derecho.    
+            /// <para>o o o</para>
+            /// <para>X o X</para>
+            /// <para>o o o</para>
+            /// </summary>
+            Vertical = Right + Left,
+            /// <summary>
+            /// Panel superior, panel inferior, panel izquierdo y panel derecho.    
+            /// <para>o X o</para>
+            /// <para>X o X</para>
+            /// <para>o X o</para>
+            /// </summary>
+            All = Horizontal + Vertical,
+            /// <summary>
+            /// Panel superior, panel inferior y panel izquierdo.    
+            /// <para>o X o</para>
+            /// <para>X o o</para>
+            /// <para>o X o</para>
+            /// </summary>
+            AllExceptRight = All - Right,
+            /// <summary>
+            /// Panel superior, panel inferior y panel derecho.    
+            /// <para>o X o</para>
+            /// <para>o o X</para>
+            /// <para>o X o</para>
+            /// </summary>
+            AllExceptLeft = All - Left,
+            /// <summary>
+            /// Panel inferior, panel izquierdo y panel derecho.    
+            /// <para>o o o</para>
+            /// <para>X o X</para>
+            /// <para>o X o</para>
+            /// </summary>
+            AllExceptTop = All - Top,
+            /// <summary>
+            /// Panel superior, panel izquierdo y panel derecho.    
+            /// <para>o X o</para>
+            /// <para>X o X</para>
+            /// <para>o o o</para>
+            /// </summary>
+            AllExceptBottom = All - Bottom,
 
+            //.-.-.-.-.-.-.-.-.-.-.-.-.-.
+            // Combinacion de paneles de esquinas. No laterales.
+            //.-.-.-.-.-.-.-.-.-.-.-.-.-.
+            /// <summary>
+            /// Esquina inferior izquierdo y esquina inferior derecho.
+            /// <para>o o o</para>
+            /// <para>o o o</para>
+            /// <para>X o X</para>
+            /// </summary>
+            BottomCorners = CornerBottomLeft + CornerBottomRight,
+            /// <summary>
+            /// Esquina superior izquierdo y esquina superior derecho.    
+            /// <para>X o X</para>
+            /// <para>o o o</para>
+            /// <para>o o o</para>
+            /// </summary>
+            TopCorners = CornerTopLeft + CornerTopRight,
+            /// <summary>
+            /// Esquina superior izquierdo y esquina inferior izquierdo.    
+            /// <para>X o o</para>
+            /// <para>o o o</para>
+            /// <para>X o o</para>
+            /// </summary>
+            LeftCorners = CornerTopLeft + CornerBottomLeft,
+            /// <summary>
+            /// Esquina superior derecho y esquina inferior derecho.    
+            /// <para>o o X</para>
+            /// <para>o o o</para>
+            /// <para>o o X</para>
+            /// </summary>
+            RightCorners = CornerTopRight + CornerBottomRight,
 
-            Izquierdo_ConEsquinas = 161,
-            Derecho_ConEsquinas = 82,
-            Superior_ConEsquinas = 52,
-            Inferior_ConEsquinas = 200,
-            SuperiorDerecho_ConEsquinas = 22,
-            SuperiorIzquierdo_ConEsquinas = 37,
-            InferiorDerecho_ConEsquinas = 74,
-            InferiorIzquierdo_ConEsquinas = 137,
-            SoloEsquinas = 240,
-            LadosHorizontales_ConEsquinas = 252,
-            LadosVerticales_ConEsquinas = 243,
-
-            Todos_ConEsquinas = 255,
-            TodosExceptoDerecho_ConEsquinas = 253,
-            TodosExceptoIzquierdo_ConEsquinas = 254,
-            TodosExpectoSuperior_ConEsquinas = 251,
-            TodosExceptoInferior_ConEsquinas = 247
+            //.-.-.-.-.-.-.-.-.-.-.-.-.-.
+            // Combinacion de paneles laterales y de esquinas.
+            //.-.-.-.-.-.-.-.-.-.-.-.-.-.
+            /// <summary>
+            /// Panel izquierdo, esquina superior izquierdo y esquina inferior izquierdo.    
+            /// <para>X o o</para>
+            /// <para>X o o</para>
+            /// <para>X o o</para>
+            /// </summary>
+            LeftWithCorners = Left + LeftCorners,
+            /// <summary>
+            /// Panel derecho, esquina superior derecho y esquina inferior derecho.    
+            /// <para>o o X</para>
+            /// <para>o o X</para>
+            /// <para>o o X</para>
+            /// </summary>
+            RightWithCorners = Right + RightCorners,
+            /// <summary>
+            /// Panel superior, esquina superior izquierdo y esquina superior derecho.    
+            /// <para>X X X</para>
+            /// <para>o o o</para>
+            /// <para>o o o</para>
+            /// </summary>
+            TopWithCorners = Top + TopCorners,
+            /// <summary>
+            /// Panel inferior, esquina inferior izquierdo y esquina inferior derecho.    
+            /// <para>o o o</para>
+            /// <para>o o o</para>
+            /// <para>X X X</para>
+            /// </summary>
+            BottomWithCorners = Bottom + BottomCorners,
+            /// <summary>
+            /// Panel superior, panel derecho y esquina superior derecho.    
+            /// <para>o X X</para>
+            /// <para>o o X</para>
+            /// <para>o o o</para>
+            /// </summary>
+            TopRightWithCorner = TopRight + CornerTopRight,
+            /// <summary>
+            /// Panel superior, panel izquierdo y esquina superior izquierdo.    
+            /// <para>X X o</para>
+            /// <para>X o o</para>
+            /// <para>o o o</para>
+            /// </summary>
+            TopLeftWithCorner = TopLeft + CornerTopLeft,
+            /// <summary>
+            /// Panel inferior, panel derecho y esquina inferior derecho.    
+            /// <para>o o o</para>
+            /// <para>o o X</para>
+            /// <para>o X X</para>
+            /// </summary>
+            BottomRightWithCorner = BottomRight + CornerBottomRight,
+            /// <summary>
+            /// Panel inferior, panel izquierdo y esquina inferior izquierdo.    
+            /// <para>o o o</para>
+            /// <para>X o o</para>
+            /// <para>X X o</para>
+            /// </summary>
+            BottomLeftWithCorner = BottomLeft + CornerBottomLeft,
+            /// <summary>
+            /// Panel izquierdo, panel derecho, esquina superior izquierdo, esquina superior derecho, esquina inferior izquierdo y esquina inferior derecho.    
+            /// <para>X o X</para>
+            /// <para>X o X</para>
+            /// <para>X o X</para>
+            /// </summary>
+            HorizontalWithCorners = RightWithCorners + LeftWithCorners,
+            /// <summary>
+            /// Panel superior, panel inferior, esquina superior izquierdo, esquina superior derecho, esquina inferior izquierdo y esquina inferior derecho.    
+            /// <para>X X X</para>
+            /// <para>o o o</para>
+            /// <para>X X X</para>
+            /// </summary>
+            VerticalWithCorners = TopWithCorners + BottomWithCorners,
+            /// <summary>
+            /// Esquina superior izquierdo, esquina superior derecho, esquina inferior izquierdo y esquina inferior derecho.    
+            /// <para>X o X</para>
+            /// <para>o o o</para>
+            /// <para>X o X</para>
+            /// </summary>
+            Corners = RightCorners + LeftCorners,
+            /// <summary>
+            /// Panel superior, panel inferior, panel izquierdo, panel derecho, esquina superior izquierdo, esquina superior derecho, esquina inferior izquierdo y esquina inferior derecho.    
+            /// <para>X X X</para>
+            /// <para>X X X</para>
+            /// <para>X X X</para>
+            /// </summary>
+            AllWithCorners = All + Corners,
+            /// <summary>
+            /// Panel superior, panel inferior, panel izquierdo, esquina superior izquierdo, esquina superior derecho, esquina inferior izquierdo y esquina inferior derecho.    
+            /// <para>X X X</para>
+            /// <para>X X o</para>
+            /// <para>X X X</para>
+            /// </summary>
+            AllExceptRightWithCorners = AllExceptRight + Corners,
+            /// <summary>
+            /// Panel superior, panel inferior, panel derecho, esquina superior izquierdo, esquina superior derecho, esquina inferior izquierdo y esquina inferior derecho.    
+            /// <para>X X X</para>
+            /// <para>o X X</para>
+            /// <para>X X X</para>
+            /// </summary>
+            AllExceptLeftWithCorners = AllExceptLeft + Corners,
+            /// <summary>
+            /// Panel inferior, panel izquierdo, panel derecho, esquina superior izquierdo, esquina superior derecho, esquina inferior izquierdo y esquina inferior derecho.    
+            /// <para>X o X</para>
+            /// <para>X X X</para>
+            /// <para>X X X</para>
+            /// </summary>
+            AllExceptTopWithCorners = AllExceptTop + Corners,
+            /// <summary>
+            /// Panel superior, panel izquierdo, panel derecho, esquina superior izquierdo, esquina superior derecho, esquina inferior izquierdo y esquina inferior derecho.    
+            /// <para>X X X</para>
+            /// <para>X X X</para>
+            /// <para>X o X</para>
+            /// </summary>
+            AllExceptBottomWithCorners = AllExceptBottom + Corners
         };
         #endregion
 
         #region OF_Variables
-        public static readonly string version = "0.2.4.1";
+        public static readonly string version = "0.2.5";
         static List<Form> listaForms = new List<Form>();
         Size OriginalSizeWindow = Size.Empty;
         FormBorderStyle OriginalFormBorderStyle;
@@ -238,7 +466,7 @@ namespace FormDecoration
 
                         _panelIzquierdo = new Panel();
                         _panelUniversal.Controls.Add(_panelIzquierdo);
-                        _panelIzquierdo.Tag = SelectedPanel.Izquierdo;
+                        _panelIzquierdo.Tag = SelectPanel.Left;
                         _panelIzquierdo.Name = "Outline - Left";
                         _panelIzquierdo.Left = margin.Left;
                         _panelIzquierdo.Top = _panelSuperior == null ? -padding.Top : border.Top + margin.Top;
@@ -307,7 +535,7 @@ namespace FormDecoration
 
                         _panelDerecho = new Panel();
                         _panelUniversal.Controls.Add(_panelDerecho);
-                        _panelDerecho.Tag = SelectedPanel.Derecho;
+                        _panelDerecho.Tag = SelectPanel.Right;
                         _panelDerecho.Name = "Outline - Right";
                         _panelDerecho.Left = _panelIzquierdo == null ? OriginalSizeWindow.Width + padding.Right : OriginalSizeWindow.Width + padding.Width() + border.Left + margin.Left;
                         _panelDerecho.Top = _panelSuperior == null ? -padding.Top : border.Top + margin.Top;
@@ -385,7 +613,7 @@ namespace FormDecoration
 
                         _panelInferior = new Panel();
                         _panelUniversal.Controls.Add(_panelInferior);
-                        _panelInferior.Tag = SelectedPanel.Inferior;
+                        _panelInferior.Tag = SelectPanel.Bottom;
                         _panelInferior.Name = "Outline - Bottom";
                         _panelInferior.Left = _panelIzquierdo == null ? -padding.Left : border.Left + margin.Left;
                         _panelInferior.Top = _panelSuperior == null ? OriginalSizeWindow.Height + padding.Bottom : OriginalSizeWindow.Height + padding.Height() + border.Top + margin.Top;
@@ -454,7 +682,7 @@ namespace FormDecoration
 
                         _panelSuperior = new Panel();
                         _panelUniversal.Controls.Add(_panelSuperior);
-                        _panelSuperior.Tag = SelectedPanel.Superior;
+                        _panelSuperior.Tag = SelectPanel.Top;
                         _panelSuperior.Name = "Outline - Top";
                         _panelSuperior.Left = _panelIzquierdo == null ? -padding.Left : border.Left + margin.Left;
                         _panelSuperior.Top = margin.Top;

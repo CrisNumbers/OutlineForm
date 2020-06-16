@@ -25,19 +25,21 @@ namespace FormDecoration
             toolTip.SetToolTip(margin, "Define las medidas externas del contorno.");
             toolTip.SetToolTip(padding, "Define las medidas internas del contorno.");
 
-            pb_ColorDer.Tag = OutlineForm.SelectedPanel.Derecho;
-            pb_ColorIzq.Tag = OutlineForm.SelectedPanel.Izquierdo;
-            pb_ColorSup.Tag = OutlineForm.SelectedPanel.Superior;
-            pb_ColorInf.Tag = OutlineForm.SelectedPanel.Inferior;
-            pb_ColorSupDer.Tag = OutlineForm.SelectedPanel.EsquinaSuperiorDerecho;
-            pb_ColorSupIzq.Tag = OutlineForm.SelectedPanel.EsquinaSuperiorIzquierdo;
-            pb_ColorInfDer.Tag = OutlineForm.SelectedPanel.EsquinaInferiorDerecho;
-            pb_ColorInfIzq.Tag = OutlineForm.SelectedPanel.EsquinaInferiorIzquierdo;
+            pb_ColorDer.Tag = OutlineForm.SelectPanel.Right;
+            pb_ColorIzq.Tag = OutlineForm.SelectPanel.Left;
+            pb_ColorSup.Tag = OutlineForm.SelectPanel.Top;
+            pb_ColorInf.Tag = OutlineForm.SelectPanel.Bottom;
+            pb_ColorSupDer.Tag = OutlineForm.SelectPanel.CornerTopRight;
+            pb_ColorSupIzq.Tag = OutlineForm.SelectPanel.CornerTopLeft;
+            pb_ColorInfDer.Tag = OutlineForm.SelectPanel.CornerBottomRight;
+            pb_ColorInfIzq.Tag = OutlineForm.SelectPanel.CornerBottomLeft;
 
-            btn_Derecho.Tag = OutlineForm.SelectedPanel.Derecho;
-            btn_Izquierdo.Tag = OutlineForm.SelectedPanel.Izquierdo;
-            btn_Superior.Tag = OutlineForm.SelectedPanel.Superior;
-            btn_Inferior.Tag = OutlineForm.SelectedPanel.Inferior;
+            btn_Derecho.Tag = OutlineForm.SelectPanel.Right;
+            btn_Izquierdo.Tag = OutlineForm.SelectPanel.Left;
+            btn_Superior.Tag = OutlineForm.SelectPanel.Top;
+            btn_Inferior.Tag = OutlineForm.SelectPanel.Bottom;
+
+            btn_Pintar.Tag = 1;
 
             //Ejemplo de declaracion del OutlineForm
             ReiniciarOutlineForm();
@@ -73,7 +75,10 @@ namespace FormDecoration
             btn_Izquierdo.BackColor = outlineForm.LeftPanelVisible ? Color.Green : Color.Red;
             btn_Derecho.BackColor = outlineForm.RightPanelVisible ? Color.Green : Color.Red;
 
-            //Asi se obtienen los colores de cada panel.
+            //Para definir un color, se utiliza un metodo.
+            //Esto es para seleccionar los paneles que serán pintados.
+            outlineForm.SetColorPanel(OutlineForm.SelectPanel.AllWithCorners, Color.DarkBlue);
+            
             //En caso de pedir los colores de un panel que no existe, retornará un color negro.
             //(Excepto las esquinas, ya que estas estan siempre generadas)
             pb_ColorSup.BackColor = outlineForm.TopColor;
@@ -85,9 +90,7 @@ namespace FormDecoration
             pb_ColorInfDer.BackColor = outlineForm.BottomLeftColor;
             pb_ColorInfIzq.BackColor = outlineForm.BottomRightColor;
 
-            //No obstante, para definir un color, se utiliza un metodo.
-            //Esto es para seleccionar los paneles que serán pintados.
-            outlineForm.SetColorPanel(OutlineForm.SelectedPanel.Todos, Color.Black);
+            
 
             //Establecer el titulo de la ventana
             outlineForm.Title = txt_Titulo.Text;
@@ -120,25 +123,63 @@ namespace FormDecoration
 
 
 
+        private void ActualizarTimerPintar()
+        {
+            int index = (int)t_Pintando.Tag;
+            if (index < 0) index = 0;
+            int pseudoIndex = 0;
+            int total = Enum.GetValues(typeof(OutlineForm.SelectPanel)).Length;
+            outlineForm.SetColorPanel(OutlineForm.SelectPanel.AllWithCorners, Color.Green);
+            foreach (OutlineForm.SelectPanel number in Enum.GetValues(typeof(OutlineForm.SelectPanel)))
+            {
+                if (index >= total)
+                {
+                    gb_Medidas.Enabled = true;
+                    gb_OpcionesContorno.Enabled = true;
+                    gb_Titulo.Enabled = true;
+                    btn_Destroy.Enabled = true;
+                    btn_PintandoAnterior.Enabled = false;
+                    btn_PintandoSiguiente.Enabled = false;
+                    l_Pintando.Visible = false;
+                    btn_Pintar.Text = "Pintar todas las combinaciones";
+                    btn_Pintar.BackColor = Color.DarkGreen;
+
+                    t_Pintando.Stop();
+                    btn_Pintar.Tag = 1;
+                    break;
+                }
+                else if (index == pseudoIndex)
+                {
+                    outlineForm.SetColorPanel(number, Color.Red);
+                    l_Pintando.Text = "Pintando: " + number.ToString();
+                    break;
+                }
+                else
+                    pseudoIndex++;
+            }
+
+            t_Pintando.Tag = index + 1;
+        }
+
 
         private void Btn_Visible_Click(object sender, EventArgs e)
         {
             Button bt = sender as Button;
-            switch((OutlineForm.SelectedPanel)bt.Tag)
+            switch((OutlineForm.SelectPanel)bt.Tag)
             {
-                case OutlineForm.SelectedPanel.Derecho:
+                case OutlineForm.SelectPanel.Right:
                     outlineForm.RightPanelVisible = !outlineForm.RightPanelVisible;
                     btn_Derecho.BackColor = outlineForm.RightPanelVisible ? Color.Green : Color.Red;
                     break;
-                case OutlineForm.SelectedPanel.Izquierdo:
+                case OutlineForm.SelectPanel.Left:
                     outlineForm.LeftPanelVisible = !outlineForm.LeftPanelVisible;
                     btn_Izquierdo.BackColor = outlineForm.LeftPanelVisible ? Color.Green : Color.Red;
                     break;
-                case OutlineForm.SelectedPanel.Superior:
+                case OutlineForm.SelectPanel.Top:
                     outlineForm.TopPanelVisible = !outlineForm.TopPanelVisible;
                     btn_Superior.BackColor = outlineForm.TopPanelVisible ? Color.Green : Color.Red;
                     break;
-                case OutlineForm.SelectedPanel.Inferior:
+                case OutlineForm.SelectPanel.Bottom:
                     outlineForm.BottomPanelVisible = !outlineForm.BottomPanelVisible;
                     btn_Inferior.BackColor = outlineForm.BottomPanelVisible ? Color.Green : Color.Red;
                     break;
@@ -186,9 +227,78 @@ namespace FormDecoration
             PictureBox pb = sender as PictureBox;
             if (colorDialog_Outline.ShowDialog() == DialogResult.OK)
             {
-                outlineForm.SetColorPanel((OutlineForm.SelectedPanel)pb.Tag, colorDialog_Outline.Color);
+                outlineForm.SetColorPanel((OutlineForm.SelectPanel)pb.Tag, colorDialog_Outline.Color);
                 pb.BackColor = colorDialog_Outline.Color;                
             }
+        }
+
+        private void Btn_Pintar_Click(object sender, EventArgs e)
+        {
+            if ((int)btn_Pintar.Tag == 1)
+            {
+                gb_Medidas.Enabled = false;
+                gb_OpcionesContorno.Enabled = false;
+                gb_Titulo.Enabled = false;
+                btn_Destroy.Enabled = false;
+                btn_PintandoAnterior.Enabled = true;
+                btn_PintandoSiguiente.Enabled = true;
+                l_Pintando.Visible = true;
+
+                btn_Pintar.Text = "Detener pintado";
+                btn_Pintar.BackColor = Color.DarkRed;
+
+                t_Pintando.Tag = 0;
+                btn_Pintar.Tag = 0;
+                t_Pintando.Start();
+            }
+            else
+            {
+                gb_Medidas.Enabled = true;
+                gb_OpcionesContorno.Enabled = true;
+                gb_Titulo.Enabled = true;
+                btn_Destroy.Enabled = true;
+                btn_PintandoAnterior.Enabled = false;
+                btn_PintandoSiguiente.Enabled = false;
+                l_Pintando.Visible = false;
+                btn_Pintar.Text = "Pintar todas las combinaciones";
+                btn_Pintar.BackColor = Color.DarkGreen;
+
+                t_Pintando.Stop();
+                btn_Pintar.Tag = 1;
+            }
+        }
+
+        private void T_Pintando_Tick(object sender, EventArgs e)
+        {
+            ActualizarTimerPintar();
+        }
+
+        private void Tb_Flujo_Scroll(object sender, EventArgs e)
+        {
+            int valor = tb_Flujo.Value;
+            int multi = tb_Flujo.Value / 500 ;
+            if (valor % 500 < 250)
+                valor = 500 * (multi);
+            else
+                valor = 500 * (multi+ 1);
+            
+            t_Pintando.Interval = valor;
+            tb_Flujo.Value = valor;
+        }
+
+        private void Btn_PintandoSiguiente_Click(object sender, EventArgs e)
+        {
+            t_Pintando.Stop();
+            ActualizarTimerPintar();
+            t_Pintando.Start();
+        }
+
+        private void Btn_PintandoAnterior_Click(object sender, EventArgs e)
+        {
+            t_Pintando.Stop();
+            t_Pintando.Tag = (int)t_Pintando.Tag - 2;
+            ActualizarTimerPintar();
+            t_Pintando.Start();
         }
     }
 }

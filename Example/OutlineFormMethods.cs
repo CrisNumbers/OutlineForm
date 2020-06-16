@@ -286,35 +286,35 @@ namespace FormDecoration
         /// </summary>
         /// <param name="panelP">Enum que contiene las posibles combinaciones de paneles. Dicha selección serán los que cambiarán el color.</param>
         /// <param name="colorP">El nuevo color que se les asignará a cada panel.</param>
-        public void SetColorPanel(SelectedPanel panelP, Color colorP)
+        public void SetColorPanel(SelectPanel panelP, Color colorP)
         {
             List<Panel> lista = SearchPanel(panelP);
             foreach (Panel miPanel in lista)
             {
-                switch ((SelectedPanel)miPanel.Tag)
+                switch ((SelectPanel)miPanel.Tag)
                 {
-                    case SelectedPanel.Superior:
+                    case SelectPanel.Top:
                         TopColor = colorP;
                         break;
-                    case SelectedPanel.Inferior:
+                    case SelectPanel.Bottom:
                         BottomColor = colorP;
                         break;
-                    case SelectedPanel.Izquierdo:
+                    case SelectPanel.Left:
                         LeftColor = colorP;
                         break;
-                    case SelectedPanel.Derecho:
+                    case SelectPanel.Right:
                         RightColor = colorP;
                         break;
-                    case SelectedPanel.EsquinaSuperiorIzquierdo:
+                    case SelectPanel.CornerTopLeft:
                         TopLeftColor = colorP;
                         break;
-                    case SelectedPanel.EsquinaSuperiorDerecho:
+                    case SelectPanel.CornerTopRight:
                         TopRightColor = colorP;
                         break;
-                    case SelectedPanel.EsquinaInferiorIzquierdo:
+                    case SelectPanel.CornerBottomLeft:
                         BottomLeftColor = colorP;
                         break;                
-                    case SelectedPanel.EsquinaInferiorDerecho:
+                    case SelectPanel.CornerBottomRight:
                         BottomRightColor = colorP;
                         break;
                 }
@@ -447,7 +447,7 @@ namespace FormDecoration
             //-------------------------------------------------------------
             _panelDSupIzq = new Panel();
             _panelUniversal.Controls.Add(_panelDSupIzq);
-            _panelDSupIzq.Tag = SelectedPanel.EsquinaSuperiorIzquierdo;
+            _panelDSupIzq.Tag = SelectPanel.CornerTopLeft;
             _panelDSupIzq.Name = "Outline - TopLeft";
             _panelDSupIzq.Left = _panelIzquierdo == null ? -border.Left : margin.Left;
             _panelDSupIzq.Top = _panelSuperior == null ? -border.Top : margin.Top;
@@ -461,7 +461,7 @@ namespace FormDecoration
             //-------------------------------------------------------------
             _panelDSupDer = new Panel();
             _panelUniversal.Controls.Add(_panelDSupDer);
-            _panelDSupDer.Tag = SelectedPanel.EsquinaSuperiorDerecho;
+            _panelDSupDer.Tag = SelectPanel.CornerTopRight;
             _panelDSupDer.Name = "Outline - TopRight";
             _panelDSupDer.Left = _panelIzquierdo == null ? OriginalSizeWindow.Width + padding.Right : OriginalSizeWindow.Width + border.Left + margin.Left + padding.Width();
             _panelDSupDer.Top = _panelSuperior == null ? -border.Top : margin.Top;
@@ -475,7 +475,7 @@ namespace FormDecoration
             //-------------------------------------------------------------
             _panelDInfIzq = new Panel();
             _panelUniversal.Controls.Add(_panelDInfIzq);
-            _panelDInfIzq.Tag = SelectedPanel.EsquinaInferiorIzquierdo;
+            _panelDInfIzq.Tag = SelectPanel.CornerBottomLeft;
             _panelDInfIzq.Name = "Outline - BottomLeft";
             _panelDInfIzq.Left = _panelIzquierdo == null ? -border.Left : margin.Left;
             _panelDInfIzq.Top = _panelSuperior == null ? OriginalSizeWindow.Height + padding.Bottom : OriginalSizeWindow.Height + border.Top + margin.Top + padding.Height();
@@ -489,7 +489,7 @@ namespace FormDecoration
             //-------------------------------------------------------------
             _panelDInfDer = new Panel();
             _panelUniversal.Controls.Add(_panelDInfDer);
-            _panelDInfDer.Tag = SelectedPanel.EsquinaInferiorDerecho;
+            _panelDInfDer.Tag = SelectPanel.CornerBottomRight;
             _panelDInfDer.Name = "Outline - BottomRight";
             _panelDInfDer.Left = _panelIzquierdo == null ? OriginalSizeWindow.Width + padding.Right : OriginalSizeWindow.Width + border.Left + margin.Left + padding.Width();
             _panelDInfDer.Top = _panelSuperior == null ? OriginalSizeWindow.Height + padding.Bottom : OriginalSizeWindow.Height + border.Top + margin.Top + padding.Height();
@@ -636,7 +636,7 @@ namespace FormDecoration
                 _panelDInfIzq.Size = new Size(border.Left, border.Bottom);
             }
         }
-        private List<Panel> SearchPanel(SelectedPanel panelP)
+        private List<Panel> SearchPanel(SelectPanel panelP)
         {
             List<Panel> panelesRetorno = new List<Panel>();
             int numeroOpcion = (int)panelP;

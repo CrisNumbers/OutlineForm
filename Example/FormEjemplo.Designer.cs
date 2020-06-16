@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.btn_Inferior = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -69,6 +70,13 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.colorDialog_Outline = new System.Windows.Forms.ColorDialog();
+            this.gb_Combinaciones = new System.Windows.Forms.GroupBox();
+            this.l_Pintando = new System.Windows.Forms.Label();
+            this.btn_Pintar = new System.Windows.Forms.Button();
+            this.t_Pintando = new System.Windows.Forms.Timer(this.components);
+            this.btn_PintandoSiguiente = new System.Windows.Forms.Button();
+            this.btn_PintandoAnterior = new System.Windows.Forms.Button();
+            this.tb_Flujo = new System.Windows.Forms.TrackBar();
             this.panel1.SuspendLayout();
             this.gb_Medidas.SuspendLayout();
             this.margin.SuspendLayout();
@@ -85,6 +93,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pb_ColorIzq)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_ColorSupIzq)).BeginInit();
             this.panel2.SuspendLayout();
+            this.gb_Combinaciones.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tb_Flujo)).BeginInit();
             this.SuspendLayout();
             // 
             // btn_Inferior
@@ -101,6 +111,7 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.Transparent;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.gb_Combinaciones);
             this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.btn_Destroy);
             this.panel1.Controls.Add(this.l_Version);
@@ -125,6 +136,7 @@
             // btn_Destroy
             // 
             this.btn_Destroy.BackColor = System.Drawing.Color.DarkRed;
+            this.btn_Destroy.ForeColor = System.Drawing.Color.White;
             this.btn_Destroy.Location = new System.Drawing.Point(565, 483);
             this.btn_Destroy.Name = "btn_Destroy";
             this.btn_Destroy.Size = new System.Drawing.Size(106, 58);
@@ -165,14 +177,14 @@
             this.gb_Medidas.Controls.Add(this.border);
             this.gb_Medidas.Location = new System.Drawing.Point(5, 85);
             this.gb_Medidas.Name = "gb_Medidas";
-            this.gb_Medidas.Size = new System.Drawing.Size(207, 431);
+            this.gb_Medidas.Size = new System.Drawing.Size(207, 444);
             this.gb_Medidas.TabIndex = 11;
             this.gb_Medidas.TabStop = false;
             this.gb_Medidas.Text = "Medidas de la ventana";
             // 
             // btn_Actualizar
             // 
-            this.btn_Actualizar.Location = new System.Drawing.Point(51, 398);
+            this.btn_Actualizar.Location = new System.Drawing.Point(51, 408);
             this.btn_Actualizar.Name = "btn_Actualizar";
             this.btn_Actualizar.Size = new System.Drawing.Size(95, 30);
             this.btn_Actualizar.TabIndex = 0;
@@ -499,6 +511,87 @@
             this.label4.TabIndex = 0;
             this.label4.Text = "Este panel es para comprobar que agregue a todos los componentes";
             // 
+            // gb_Combinaciones
+            // 
+            this.gb_Combinaciones.Controls.Add(this.btn_Pintar);
+            this.gb_Combinaciones.Controls.Add(this.tb_Flujo);
+            this.gb_Combinaciones.Controls.Add(this.btn_PintandoAnterior);
+            this.gb_Combinaciones.Controls.Add(this.btn_PintandoSiguiente);
+            this.gb_Combinaciones.Controls.Add(this.l_Pintando);
+            this.gb_Combinaciones.Location = new System.Drawing.Point(219, 393);
+            this.gb_Combinaciones.Name = "gb_Combinaciones";
+            this.gb_Combinaciones.Size = new System.Drawing.Size(327, 136);
+            this.gb_Combinaciones.TabIndex = 15;
+            this.gb_Combinaciones.TabStop = false;
+            this.gb_Combinaciones.Text = "Combinaciones";
+            // 
+            // l_Pintando
+            // 
+            this.l_Pintando.AutoSize = true;
+            this.l_Pintando.Location = new System.Drawing.Point(7, 28);
+            this.l_Pintando.Name = "l_Pintando";
+            this.l_Pintando.Size = new System.Drawing.Size(80, 20);
+            this.l_Pintando.TabIndex = 0;
+            this.l_Pintando.Text = "Pintando: ";
+            this.l_Pintando.Visible = false;
+            // 
+            // btn_Pintar
+            // 
+            this.btn_Pintar.BackColor = System.Drawing.Color.DarkGreen;
+            this.btn_Pintar.ForeColor = System.Drawing.Color.White;
+            this.btn_Pintar.Location = new System.Drawing.Point(11, 96);
+            this.btn_Pintar.Name = "btn_Pintar";
+            this.btn_Pintar.Size = new System.Drawing.Size(308, 34);
+            this.btn_Pintar.TabIndex = 1;
+            this.btn_Pintar.Tag = "1";
+            this.btn_Pintar.Text = "Pintar todas las combinaciones";
+            this.btn_Pintar.UseVisualStyleBackColor = false;
+            this.btn_Pintar.Click += new System.EventHandler(this.Btn_Pintar_Click);
+            // 
+            // t_Pintando
+            // 
+            this.t_Pintando.Interval = 500;
+            this.t_Pintando.Tick += new System.EventHandler(this.T_Pintando_Tick);
+            // 
+            // btn_PintandoSiguiente
+            // 
+            this.btn_PintandoSiguiente.Enabled = false;
+            this.btn_PintandoSiguiente.Location = new System.Drawing.Point(234, 61);
+            this.btn_PintandoSiguiente.Name = "btn_PintandoSiguiente";
+            this.btn_PintandoSiguiente.Size = new System.Drawing.Size(85, 29);
+            this.btn_PintandoSiguiente.TabIndex = 2;
+            this.btn_PintandoSiguiente.Text = "Siguiente";
+            this.btn_PintandoSiguiente.UseVisualStyleBackColor = true;
+            this.btn_PintandoSiguiente.Click += new System.EventHandler(this.Btn_PintandoSiguiente_Click);
+            // 
+            // btn_PintandoAnterior
+            // 
+            this.btn_PintandoAnterior.Enabled = false;
+            this.btn_PintandoAnterior.Location = new System.Drawing.Point(12, 61);
+            this.btn_PintandoAnterior.Name = "btn_PintandoAnterior";
+            this.btn_PintandoAnterior.Size = new System.Drawing.Size(85, 29);
+            this.btn_PintandoAnterior.TabIndex = 2;
+            this.btn_PintandoAnterior.Text = "Anterior";
+            this.btn_PintandoAnterior.UseVisualStyleBackColor = true;
+            this.btn_PintandoAnterior.Click += new System.EventHandler(this.Btn_PintandoAnterior_Click);
+            // 
+            // tb_Flujo
+            // 
+            this.tb_Flujo.LargeChange = 500;
+            this.tb_Flujo.Location = new System.Drawing.Point(103, 64);
+            this.tb_Flujo.Maximum = 2500;
+            this.tb_Flujo.Minimum = 500;
+            this.tb_Flujo.Name = "tb_Flujo";
+            this.tb_Flujo.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.tb_Flujo.RightToLeftLayout = true;
+            this.tb_Flujo.Size = new System.Drawing.Size(125, 45);
+            this.tb_Flujo.SmallChange = 500;
+            this.tb_Flujo.TabIndex = 3;
+            this.tb_Flujo.TickFrequency = 500;
+            this.tb_Flujo.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
+            this.tb_Flujo.Value = 500;
+            this.tb_Flujo.Scroll += new System.EventHandler(this.Tb_Flujo_Scroll);
+            // 
             // FormEjemplo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -533,6 +626,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.pb_ColorSupIzq)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.gb_Combinaciones.ResumeLayout(false);
+            this.gb_Combinaciones.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tb_Flujo)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -580,6 +676,13 @@
         private System.Windows.Forms.PictureBox pb_ColorIzq;
         private System.Windows.Forms.PictureBox pb_ColorSupIzq;
         private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.GroupBox gb_Combinaciones;
+        private System.Windows.Forms.Button btn_Pintar;
+        private System.Windows.Forms.Label l_Pintando;
+        private System.Windows.Forms.Timer t_Pintando;
+        private System.Windows.Forms.TrackBar tb_Flujo;
+        private System.Windows.Forms.Button btn_PintandoAnterior;
+        private System.Windows.Forms.Button btn_PintandoSiguiente;
     }
 }
 
