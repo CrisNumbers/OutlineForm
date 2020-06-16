@@ -88,7 +88,7 @@ namespace FormDecoration
         #endregion
 
         #region OF_Variables
-        public static readonly string version = "0.2.4";
+        public static readonly string version = "0.2.4.1";
         static List<Form> listaForms = new List<Form>();
         Size OriginalSizeWindow = Size.Empty;
         FormBorderStyle OriginalFormBorderStyle;
