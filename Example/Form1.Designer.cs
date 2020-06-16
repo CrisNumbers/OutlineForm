@@ -56,6 +56,9 @@
             this.topEnable = new System.Windows.Forms.Button();
             this.RightEnable = new System.Windows.Forms.Button();
             this.leftEnable = new System.Windows.Forms.Button();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.btn_Destroy = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.margin.SuspendLayout();
@@ -63,6 +66,7 @@
             this.border.SuspendLayout();
             this.superior.SuspendLayout();
             this.contorno.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // bottomEnable
@@ -79,13 +83,14 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.Transparent;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.btn_Destroy);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.groupBox3);
             this.panel1.Controls.Add(this.superior);
             this.panel1.Controls.Add(this.contorno);
             this.panel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel1.Location = new System.Drawing.Point(0, 12);
+            this.panel1.Location = new System.Drawing.Point(6, 14);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(555, 517);
             this.panel1.TabIndex = 0;
@@ -94,11 +99,12 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(440, 52);
+            this.label3.Location = new System.Drawing.Point(434, 52);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(101, 22);
             this.label3.TabIndex = 12;
-            this.label3.Text = "Version 0.1";
+            this.label3.Text = "Version 0.2";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label2
             // 
@@ -263,7 +269,7 @@
             this.superior.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.superior.Controls.Add(this.label1);
             this.superior.Controls.Add(this.nameTextBox);
-            this.superior.Location = new System.Drawing.Point(319, 286);
+            this.superior.Location = new System.Drawing.Point(243, 92);
             this.superior.Name = "superior";
             this.superior.Size = new System.Drawing.Size(231, 89);
             this.superior.TabIndex = 10;
@@ -294,7 +300,7 @@
             this.contorno.Controls.Add(this.bottomEnable);
             this.contorno.Controls.Add(this.RightEnable);
             this.contorno.Controls.Add(this.leftEnable);
-            this.contorno.Location = new System.Drawing.Point(319, 392);
+            this.contorno.Location = new System.Drawing.Point(243, 198);
             this.contorno.Name = "contorno";
             this.contorno.Size = new System.Drawing.Size(231, 120);
             this.contorno.TabIndex = 8;
@@ -331,11 +337,43 @@
             this.leftEnable.UseVisualStyleBackColor = true;
             this.leftEnable.Click += new System.EventHandler(this.Button3_Click);
             // 
+            // panel2
+            // 
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.label4);
+            this.panel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panel2.Location = new System.Drawing.Point(6, 572);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(555, 26);
+            this.panel2.TabIndex = 1;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(20, 2);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(498, 20);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Este panel es para comprobar que agregue a todos los componentes";
+            // 
+            // btn_Destroy
+            // 
+            this.btn_Destroy.BackColor = System.Drawing.Color.DarkRed;
+            this.btn_Destroy.Location = new System.Drawing.Point(438, 450);
+            this.btn_Destroy.Name = "btn_Destroy";
+            this.btn_Destroy.Size = new System.Drawing.Size(106, 58);
+            this.btn_Destroy.TabIndex = 13;
+            this.btn_Destroy.Tag = "1";
+            this.btn_Destroy.Text = "Destruir OutlineForm";
+            this.btn_Destroy.UseVisualStyleBackColor = false;
+            this.btn_Destroy.Click += new System.EventHandler(this.Btn_Destroy_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(567, 541);
+            this.ClientSize = new System.Drawing.Size(570, 610);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Form1";
@@ -354,6 +392,8 @@
             this.superior.ResumeLayout(false);
             this.superior.PerformLayout();
             this.contorno.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -388,6 +428,9 @@
         private System.Windows.Forms.Button medidasBoton;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button btn_Destroy;
     }
 }
 

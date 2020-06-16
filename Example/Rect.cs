@@ -58,6 +58,9 @@ namespace OutlineForm_Example
             }
         }
 
+        /// <summary>
+        /// Crea una instancia con valores de cero. Utilice Rect.Zero para dicha necesidad.
+        /// </summary>
         public Rect()
         {
             Top = 0;
@@ -65,7 +68,10 @@ namespace OutlineForm_Example
             Left = 0;
             Right = 0;
         }
-
+        /// <summary>
+        /// Crea una instancia con valores de otra instancia.
+        /// </summary>
+        /// <param name="RectP">Valores que se colocarán a la instancia.</param>
         public Rect(Rect RectP)
         {
 
@@ -84,7 +90,13 @@ namespace OutlineForm_Example
                 Right = 0;
             }
         }
-
+        /// <summary>
+        /// Crea una instancia, especificando cada uno de los valores.
+        /// </summary>
+        /// <param name="TopP">Valor del limite superior.</param>
+        /// <param name="RightP">Valor del limite derecho.</param>
+        /// <param name="BottomP">Valor del limite inferior.</param>
+        /// <param name="LeftP">Valor del limite izquierdo.</param>
         public Rect(int TopP, int RightP, int BottomP, int LeftP)
         {
             Top = TopP;
@@ -92,7 +104,12 @@ namespace OutlineForm_Example
             Left = LeftP;
             Right = RightP;
         }
-
+        /// <summary>
+        /// Crea una instancia, especificando tres valores: el limite superior, limite inferior y limite derecho e izquierdo.
+        /// </summary>
+        /// <param name="TopP">Valor del limite superior.</param>
+        /// <param name="RightandLeftP">Valor de los limites verticales (derecho e izquierdo).</param>
+        /// <param name="BottomP">Valor del limite inferior.</param>
         public Rect(int TopP, int RightandLeftP, int BottomP)
         {
             Top = TopP;
@@ -100,7 +117,11 @@ namespace OutlineForm_Example
             Left = RightandLeftP;
             Right = RightandLeftP;
         }
-
+        /// <summary>
+        /// Crea una instancia, especificando dos valores: el limite superior e inferior y el limite derecho e izquierdo.
+        /// </summary>
+        /// <param name="TopandBottomP">Valor de los limites horizontales (superior e inferior).</param>
+        /// <param name="RightandLeftP">Valor de los limites verticales (derecho e izquierdo).</param>
         public Rect(int TopandBottomP, int RightandLeftP)
         {
             Top = TopandBottomP;
@@ -108,7 +129,10 @@ namespace OutlineForm_Example
             Left = RightandLeftP;
             Right = RightandLeftP;
         }
-
+        /// <summary>
+        /// Crea una instancia, especificando cada uno de los valores por igual.
+        /// </summary>
+        /// <param name="RectP">Valor de cada limite.</param>
         public Rect(int RectP)
         {
             Top = RectP;
@@ -122,34 +146,57 @@ namespace OutlineForm_Example
         /// Retorna la suma de Top y Bottom del Rect.
         /// </summary>
         /// <returns></returns>
-        public int Height()
-        {
-            return Top + Bottom;
-        }
-
+        public int Height() => Top + Bottom;
         /// <summary>
         /// Retorna la suma de Left y Right del Rect.
         /// </summary>
         /// <returns></returns>
-        public int Width()
-        {
-            return Left + Right;
-        }
-
+        public int Width() => Left + Right;
+        /// <summary>
+        /// Retorna el area de dicho rectangulo formado.
+        /// </summary>
+        /// <returns></returns>
+        public int Area() => Width() * Height();
 
 
         //***********************************************
         //Metodos estaticos
         //***********************************************
         #region RECT_Metodos_Estaticos
-        public static Rect Zero
-        {
-            get
-            {
-                return new Rect();
-            }
-        }
-
+        /// <summary>
+        /// Retorna una nueva instancia con valores de cero.
+        /// </summary>
+        public static Rect Zero => new Rect();
+        public static Rect Window => new Rect(40, 10, 10);
+        /// <summary>
+        /// Retorna una nueva instancia, especificando el valor del limite superior, mientras que los demás tendrán valor de cero.
+        /// </summary>
+        /// <param name="topP">Valor del limite superior.</param>
+        /// <returns></returns>
+        public static Rect OnlyTop(int topP) => new Rect(topP, 0, 0);
+        /// <summary>
+        /// Retorna una nueva instancia, especificando el valor del limite inferior, mientras que los demás tendrán valor de cero.
+        /// </summary>
+        /// <param name="botP">Valor del limite inferior.</param>
+        /// <returns></returns>
+        public static Rect OnlyBottom(int botP) => new Rect(0, 0, botP);
+        /// <summary>
+        /// Retorna una nueva instancia, especificando el valor del limite izquierdo, mientras que los demás tendrán valor de cero.
+        /// </summary>
+        /// <param name="leftP">Valor del limite izquierdo.</param>
+        /// <returns></returns>
+        public static Rect OnlyLeft(int leftP) => new Rect(0, 0, 0, leftP);
+        /// <summary>
+        /// Retorna una nueva instancia, especificando el valor del limite derecho, mientras que los demás tendrán valor de cero.
+        /// </summary>
+        /// <param name="rightP">Valor del limite derecho.</param>
+        /// <returns></returns>
+        public static Rect OnlyRight(int rightP) => new Rect(0, rightP, 0, 0);
+        /// <summary>
+        /// Verifica si los valores de todos los limites es igual a 0.
+        /// </summary>
+        /// <param name="rectP">Variable a comprobar.</param>
+        /// <returns>Retorna true sí todos los valores son 0.</returns>
         public static bool isZero(Rect rectP)
         {
             return rectP.Left == 0 && rectP.Right == 0 && rectP.Bottom == 0 && rectP.Top == 0; 
@@ -188,10 +235,7 @@ namespace OutlineForm_Example
 
         public override string ToString()
         {
-            if (this == null)
-                return "NULO";
-            else
-                return String.Format("Top:{0}, Right:{1}, Bottom:{2}, Left:{3}", Top, Right, Bottom, Left);
+            return String.Format("Top:{0}, Right:{1}, Bottom:{2}, Left:{3}", Top, Right, Bottom, Left);
         }
 
         public override bool Equals(object obj)

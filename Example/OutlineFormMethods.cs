@@ -7,7 +7,249 @@ namespace OutlineForm_Example
 {
     public partial class OutlineForm
     {
-        #region MetodosPrivados
+        #region OF_Constructor
+        private void Destructor()
+        {
+            if (!Object.ReferenceEquals(null, panelUniversal))
+            {
+                for (int i = 0; i < panelCentro.Controls.Count; i++)
+                {
+                    myForm.Controls.Add(panelCentro.Controls[i]);
+                    i--;
+                }
+                panelUniversal.Dispose();
+                panelUniversal = null;
+            }
+            if (!Object.ReferenceEquals(null, panelCentro)) { panelCentro.Dispose(); panelCentro = null; }
+            if (!Object.ReferenceEquals(null, panelSuperior)) { panelSuperior.Dispose(); panelSuperior = null; }
+            if (!Object.ReferenceEquals(null, panelIzquierdo)) { panelIzquierdo.Dispose(); panelIzquierdo = null; }
+            if (!Object.ReferenceEquals(null, panelDerecho)) { panelDerecho.Dispose(); panelDerecho = null; }
+            if (!Object.ReferenceEquals(null, panelInferior)) { panelInferior.Dispose(); panelInferior = null; }
+            if (!Object.ReferenceEquals(null, panelDSupDer)) { panelDSupDer.Dispose(); panelDSupDer = null; }
+            if (!Object.ReferenceEquals(null, panelDSupIzq)) { panelDSupIzq.Dispose(); panelDSupIzq = null; }
+            if (!Object.ReferenceEquals(null, panelDInfDer)) { panelDInfDer.Dispose(); panelDInfDer = null; }
+            if (!Object.ReferenceEquals(null, panelDInfIzq)) { panelDInfIzq.Dispose(); panelDInfIzq = null; }
+            if (!Object.ReferenceEquals(null, panelOpciones)) { panelOpciones.Dispose(); panelOpciones = null; }
+            if (!Object.ReferenceEquals(null, NombreVentana)) { NombreVentana.Dispose(); NombreVentana = null; }
+            if (!Object.ReferenceEquals(null, BotonCerrar)) { BotonCerrar.Dispose(); BotonCerrar = null; }
+            if (!Object.ReferenceEquals(null, BotonMinimizar)) { BotonMinimizar.Dispose(); BotonMinimizar = null; }
+            if (!Object.ReferenceEquals(null, BotonOpciones)) { BotonOpciones.Dispose(); BotonOpciones = null; }
+            if (!OriginalSizeWindow.IsEmpty) { myForm.Size = new Size(OriginalSizeWindow.Width, OriginalSizeWindow.Height); OriginalSizeWindow = Size.Empty; }
+        }
+        /// <summary>
+        /// Crea un marco default alrededor del Form.
+        /// </summary>
+        /// <param name="formP">Form en el cual se le colocará el marco.</param>
+        public OutlineForm(Form formP)
+        {
+            if (!listaForms.Contains(formP))
+            {
+                listaForms.Add(formP);
+                myForm = formP;
+                OriginalFormBorderStyle = myForm.FormBorderStyle;
+                Set("", Color.Black, myForm.BackColor, new Rect(40, 10, 10, 10), new Rect(10), new Rect(10), true, true, true);
+            }
+            else
+                throw new ExceptionOutlineForm("No se puede instanciar el objeto con un Form anteriormente agregado");
+        }
+        public void Destroy(bool changeFormBorderStyle = false)
+        {
+            Point location = new Point(
+                myForm.Location.X + padding.Width() + margin.Width() + border.Width(),
+                myForm.Location.Y + padding.Height() + margin.Height() + border.Height()
+                );
+
+            if (changeFormBorderStyle)
+                myForm.FormBorderStyle = OriginalFormBorderStyle;
+            Destructor();
+            listaForms.Remove(myForm);
+            myForm.Location = location;
+            myForm = null;
+        }
+        #endregion
+
+        #region OF_MetodosPublicos
+        /// <summary>
+        /// Crea un marco con texto y botones alrededor del Form. En caso de existir uno, se eliminará y creará uno nuevo.
+        /// </summary>
+        /// <param name="nombreVentanaP"></param>
+        /// <param name="colorPrimaryP"></param>
+        /// <param name="colorSecundaryP"></param>
+        /// <param name="borderP"></param>
+        /// <param name="marginP"></param>
+        /// <param name="paddingP"></param>
+        /// <param name="botonMinimizarP"></param>
+        /// <param name="botonCerrarP"></param>
+        /// <param name="botonOpcionesP"></param>
+        public void Set(string nombreVentanaP, Color colorPrimaryP, Color colorSecundaryP, Rect borderP, Rect marginP, Rect paddingP, bool botonMinimizarP, bool botonCerrarP, bool botonOpcionesP)
+        {
+            Destructor();
+            border = new Rect(borderP);
+            margin = new Rect(marginP);
+            padding = new Rect(paddingP);
+            colorPrimary = colorPrimaryP;
+            colorSecundary = colorSecundaryP;
+            nombre = nombreVentanaP;
+
+            CrearMarco();
+            CrearPanelOpcionesControles();
+
+            if (!botonMinimizarP) BotonMinimizar.Visible = false;
+            if (!botonCerrarP) BotonCerrar.Visible = false;
+            if (!botonOpcionesP) BotonOpciones.Visible = false;
+            AddElements();
+        }
+        public void SetBorderMarginPadding(Rect newBorderP, Rect newMarginP, Rect newPaddingP)
+        {
+            Point myPoint = myForm.Location;
+
+            //Comprueba si existe un panel SUPERIOR
+            //Luego verifica si los nuevos valores no son los mismos.
+            //Caso contrario, desaparece y aparece el nuevo panel.
+            if (TopPanelVisible)
+            {
+                if (border.Top != newBorderP.Top ||
+                    margin.Top != newMarginP.Top ||
+                    padding.Top != newPaddingP.Top
+                    )
+                {
+                    TopPanelVisible = false;
+                    border.Top = newBorderP.Top;
+                    margin.Top = newMarginP.Top;
+                    padding.Top = newPaddingP.Top;
+                    TopPanelVisible = true;
+                }
+            }
+            else
+            {
+                border.Top = newBorderP.Top;
+                margin.Top = newMarginP.Top;
+                padding.Top = newPaddingP.Top;
+            }
+
+            //Comprueba si existe un panel INFERIOR
+            //Luego verifica si los nuevos valores no son los mismos.
+            //Caso contrario, desaparece y aparece el nuevo panel.
+            if (BottomPanelVisible)
+            {
+                if (border.Bottom != newBorderP.Bottom ||
+                    margin.Bottom != newMarginP.Bottom ||
+                    padding.Bottom != newPaddingP.Bottom
+                    )
+                {
+                    BottomPanelVisible = false;
+                    border.Bottom = newBorderP.Bottom;
+                    margin.Bottom = newMarginP.Bottom;
+                    padding.Bottom = newPaddingP.Bottom;
+                    BottomPanelVisible = true;
+                }
+            }
+            else
+            {
+                border.Bottom = newBorderP.Bottom;
+                margin.Bottom = newMarginP.Bottom;
+                padding.Bottom = newPaddingP.Bottom;
+            }
+
+            //Comprueba si existe un panel IZQUIERDO
+            //Luego verifica si los nuevos valores no son los mismos.
+            //Caso contrario, desaparece y aparece el nuevo panel.
+            if (LeftPanelVisible)
+            {
+                if (border.Left != newBorderP.Left ||
+                    margin.Left != newMarginP.Left ||
+                    padding.Left != newPaddingP.Left
+                    )
+                {
+                    LeftPanelVisible = false;
+                    border.Left = newBorderP.Left;
+                    margin.Left = newMarginP.Left;
+                    padding.Left = newPaddingP.Left;
+                    LeftPanelVisible = true;
+                }
+            }
+            else
+            {
+                border.Left = newBorderP.Left;
+                margin.Left = newMarginP.Left;
+                padding.Left = newPaddingP.Left;
+            }
+
+            //Comprueba si existe un panel DERECHO
+            //Luego verifica si los nuevos valores no son los mismos.
+            //Caso contrario, desaparece y aparece el nuevo panel.
+            if (RightPanelVisible)
+            {
+                if (border.Right != newBorderP.Right ||
+                    margin.Right != newMarginP.Right ||
+                    padding.Right != newPaddingP.Right
+                    )
+                {
+                    RightPanelVisible = false;
+                    border.Right = newBorderP.Right;
+                    margin.Right = newMarginP.Right;
+                    padding.Right = newPaddingP.Right;
+                    RightPanelVisible = true;
+                }
+            }
+            else
+            {
+                border.Right = newBorderP.Right;
+                margin.Right = newMarginP.Right;
+                padding.Right = newPaddingP.Right;
+            }
+
+            myForm.Location = myPoint;
+        }
+        public void SetBorder(Rect newBorderP)
+        {
+            SetBorderMarginPadding(newBorderP, margin, padding);
+        }
+        public void SetMargin(Rect newMarginP)
+        {
+            SetBorderMarginPadding(border, newMarginP, padding);
+        }
+        public void SetPadding(Rect newPadding)
+        {
+            SetBorderMarginPadding(border, margin, padding);
+        }
+        public void SetColorPanel(SelectedPanel panelP, Color colorP)
+        {
+            List<Panel> lista = SearchPanel(panelP);
+            string[] nombresPaneles = { "Top", "Bottom", "Left", "Rigth", "TopLeft", "TopRight", "BottomLeft", "BottomRight" };
+            Color[] coloresPaneles = { colorSuperior, colorInferior, colorIzquierdo, colorDerecho, colorSupIzq, colorSupDer, colorInfIzq, colorInfDer };
+            foreach (Panel miPanel in lista)
+            {
+                for(int i=0; i<nombresPaneles.Length; i++)
+                {
+                    if (miPanel.Name.Contains(nombresPaneles[i]))
+                    {
+                        coloresPaneles[i] = colorP;
+                        break;
+                    }
+                }
+                miPanel.BackColor = colorP;
+            }
+        }
+        public bool IsWindowOutsideScreen() => myForm.Location.X < 0 ||
+                myForm.Location.X + myForm.Width > Screen.PrimaryScreen.WorkingArea.Width ||
+                myForm.Location.Y < 0 ||
+                myForm.Location.Y + myForm.Height > Screen.PrimaryScreen.WorkingArea.Height;
+        public void SetWindowInScreen()
+        {
+            if (myForm.Location.X < 0)
+                myForm.Location = new Point(0, myForm.Location.Y);
+            else if (myForm.Location.X + myForm.Width > Screen.PrimaryScreen.WorkingArea.Width)
+                myForm.Location = new Point(Screen.PrimaryScreen.WorkingArea.Width - myForm.Width, myForm.Location.Y);
+
+            if (myForm.Location.Y < 0)
+                myForm.Location = new Point(myForm.Location.X, 0);
+            else if (myForm.Location.Y + myForm.Height > Screen.PrimaryScreen.WorkingArea.Height)
+                myForm.Location = new Point(myForm.Location.X, Screen.PrimaryScreen.WorkingArea.Height - myForm.Height);
+        }
+        #endregion
+
+        #region OF_MetodosPrivados
         private void CrearMarco()
         {
             //-------------------------------------------------------------
@@ -15,13 +257,12 @@ namespace OutlineForm_Example
             //-------------------------------------------------------------
             myForm.FormBorderStyle = FormBorderStyle.None;
             OriginalSizeWindow = new Size(myForm.Width, myForm.Height);
-            OriginalLocationWindow = new Point(myForm.Location.X, myForm.Location.Y);
 
             //-------------------------------------------------------------
             //new panelUniversal
             //-------------------------------------------------------------
             panelUniversal = new Panel();
-            panelUniversal.Name = "BarraDeTitulo";
+            panelUniversal.Name = "Outline - Universal";
             panelUniversal.Left = 0;
             panelUniversal.Top = 0;
             panelUniversal.Size = new Size(myForm.Width, myForm.Height);
@@ -35,7 +276,7 @@ namespace OutlineForm_Example
             //new panelOpciones
             //-------------------------------------------------------------
             panelOpciones = new Panel();
-            panelOpciones.Name = "BarraDeTitulo - panelOpciones";
+            panelOpciones.Name = "Outline - Options";
             panelOpciones.Left = 0;
             panelOpciones.Top = 0;
             panelOpciones.Size = new Size(myForm.Width, myForm.Height);
@@ -92,11 +333,11 @@ namespace OutlineForm_Example
             //-------------------------------------------------------------
             panelDSupIzq = new Panel();
             panelUniversal.Controls.Add(panelDSupIzq);
-            panelDSupIzq.Name = "BarraDeTitulo - panelDSupIzq";
+            panelDSupIzq.Name = "Outline - TopLeft";
             panelDSupIzq.Left = panelIzquierdo == null ? -border.Left : margin.Left;
             panelDSupIzq.Top = panelSuperior == null ? -border.Top : margin.Top;
             panelDSupIzq.Size = new Size(border.Left, border.Top);
-            panelDSupIzq.BackColor = colorPrimary;
+            panelDSupIzq.BackColor = colorSupIzq;
             panelDSupIzq.TabStop = false;
             panelDSupIzq.SendToBack();
 
@@ -105,11 +346,11 @@ namespace OutlineForm_Example
             //-------------------------------------------------------------
             panelDSupDer = new Panel();
             panelUniversal.Controls.Add(panelDSupDer);
-            panelDSupDer.Name = "BarraDeTitulo - panelDSupDer";
+            panelDSupDer.Name = "Outline - TopRight";
             panelDSupDer.Left = panelIzquierdo == null ? OriginalSizeWindow.Width + padding.Right : OriginalSizeWindow.Width + border.Left + margin.Left + padding.Width();
             panelDSupDer.Top = panelSuperior == null ? -border.Top : margin.Top;
             panelDSupDer.Size = new Size(border.Right, border.Top);
-            panelDSupDer.BackColor = colorPrimary;
+            panelDSupDer.BackColor = colorSupDer;
             panelDSupDer.TabStop = false;
             panelDSupDer.SendToBack();
 
@@ -118,11 +359,11 @@ namespace OutlineForm_Example
             //-------------------------------------------------------------
             panelDInfIzq = new Panel();
             panelUniversal.Controls.Add(panelDInfIzq);
-            panelDInfIzq.Name = "BarraDeTitulo - panelDInfIzq";
+            panelDInfIzq.Name = "Outline - BottomLeft";
             panelDInfIzq.Left = panelIzquierdo == null ? -border.Left : margin.Left;
             panelDInfIzq.Top = panelSuperior == null ? OriginalSizeWindow.Height + padding.Bottom : OriginalSizeWindow.Height + border.Top + margin.Top + padding.Height();
             panelDInfIzq.Size = new Size(border.Left, border.Bottom);
-            panelDInfIzq.BackColor = colorPrimary;
+            panelDInfIzq.BackColor = colorInfIzq;
             panelDInfIzq.TabStop = false;
             panelDInfIzq.SendToBack();
 
@@ -131,11 +372,11 @@ namespace OutlineForm_Example
             //-------------------------------------------------------------
             panelDInfDer = new Panel();
             panelUniversal.Controls.Add(panelDInfDer);
-            panelDInfDer.Name = "BarraDeTitulo - panelDInfDer";
+            panelDInfDer.Name = "Outline - BottomRight";
             panelDInfDer.Left = panelIzquierdo == null ? OriginalSizeWindow.Width + padding.Right : OriginalSizeWindow.Width + border.Left + margin.Left + padding.Width();
             panelDInfDer.Top = panelSuperior == null ? OriginalSizeWindow.Height + padding.Bottom : OriginalSizeWindow.Height + border.Top + margin.Top + padding.Height();
             panelDInfDer.Size = new Size(border.Right, border.Bottom);
-            panelDInfDer.BackColor = colorPrimary;
+            panelDInfDer.BackColor = colorInfDer;
             panelDInfDer.TabStop = false;
             panelDInfDer.SendToBack();
 
@@ -218,22 +459,24 @@ namespace OutlineForm_Example
             NombreVentana.Left = 10;
             NombreVentana.BringToFront();
         }
-        private void AddElement(Control controlP)
+        private bool AddElement(Control controlP)
         {
             if (!Object.ReferenceEquals(null, controlP) && !panelCentro.Controls.Contains(controlP))
             {
                 panelCentro.Controls.Add(controlP);
+                return true;
             }
+            return false;
         }
         private void AddElements()
         {
-            foreach (Control control in myForm.Controls)
+            for (int i=0; i<myForm.Controls.Count;i++)
             {
-                if (control != panelUniversal)
+                if (myForm.Controls[i] != panelUniversal)
                 {
-                    AddElement(control);
+                    if (AddElement(myForm.Controls[i]))
+                        i--;
                 }
-
             }
         }
         private void SetLocation()
@@ -270,7 +513,6 @@ namespace OutlineForm_Example
                 panelDInfIzq.Size = new Size(border.Left, border.Bottom);
             }
         }
-
         private List<Panel> SearchPanel(SelectedPanel panelP)
         {
             List<Panel> panelesRetorno = new List<Panel>();
@@ -324,7 +566,7 @@ namespace OutlineForm_Example
 
         #endregion
 
-        #region Eventos
+        #region OF_Eventos
         private void panel_MouseDown(object sender, MouseEventArgs e)
         {
             isSosteniendo = true;
@@ -341,6 +583,7 @@ namespace OutlineForm_Example
         private void panel_MouseUp(object sender, MouseEventArgs e)
         {
             isSosteniendo = false;
+            SetWindowInScreen();
         }
         private void panel_Resize_MouseHover(object sender, EventArgs e)
         {

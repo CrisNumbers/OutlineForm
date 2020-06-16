@@ -20,18 +20,22 @@ namespace OutlineForm_Example
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            ToolTip toolTip = new ToolTip();
+            toolTip.SetToolTip(border, "Define las medidas del contorno.");
+            toolTip.SetToolTip(margin, "Define las medidas externas del contorno.");
+            toolTip.SetToolTip(padding, "Define las medidas internas del contorno.");
+
+            //Ejemplo de declaracion del OutlineForm
             outlineForm = new OutlineForm(this);
             outlineForm.Titulo = "Ejemplo";
             bottomEnable.BackColor = outlineForm.BottomPanelVisible ? Color.Green : Color.Red;
             topEnable.BackColor = outlineForm.TopPanelVisible ? Color.Green : Color.Red;
             leftEnable.BackColor = outlineForm.LeftPanelVisible ? Color.Green : Color.Red;
             RightEnable.BackColor = outlineForm.RightPanelVisible ? Color.Green : Color.Red;
-            nameTextBox.Text = outlineForm.Titulo;
+            outlineForm.SetColorPanel(OutlineForm.SelectedPanel.SoloEsquinas, Color.Red);
 
-            ToolTip toolTip = new ToolTip();
-            toolTip.SetToolTip(border, "Define las medidas del contorno.");
-            toolTip.SetToolTip(margin, "Define las medidas externas del contorno.");
-            toolTip.SetToolTip(padding, "Define las medidas internas del contorno.");
+
+            nameTextBox.Text = outlineForm.Titulo;
 
             borderRight .Text = outlineForm.Border.Right.ToString();
             borderLeft  .Text = outlineForm.Border.Left.ToString();
@@ -106,6 +110,26 @@ namespace OutlineForm_Example
                 new Rect(int.Parse(marginTop.Text), int.Parse(marginRight.Text), int.Parse(marginBottom.Text), int.Parse(marginLeft.Text)),
                 new Rect(int.Parse(paddingTop.Text), int.Parse(paddingRight.Text), int.Parse(paddingBottom.Text), int.Parse(paddingLeft.Text))
                 );
+        }
+
+        private void Btn_Destroy_Click(object sender, EventArgs e)
+        {
+            if ((string)btn_Destroy.Tag == "1")
+            {
+                outlineForm.Destroy(true);
+                btn_Destroy.Tag = "0";
+                btn_Destroy.BackColor = Color.Transparent;
+                btn_Destroy.Text = "Crear OutlineForm";
+                groupBox3.Enabled = false;
+            }
+            else
+            {
+                outlineForm = new OutlineForm(this);
+                btn_Destroy.Tag = "1";
+                btn_Destroy.BackColor = Color.DarkRed;
+                btn_Destroy.Text = "Destruir OutlineForm";
+                groupBox3.Enabled = true;
+            }
         }
     }
 }
